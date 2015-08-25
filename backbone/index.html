@@ -1,0 +1,26 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Runner</title>
+</head>
+<body>
+
+  <div id="app"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" charset="utf-8"></script>
+
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js" charset="utf-8"></script>
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" charset="utf-8"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.2/backbone-min.js" charset="utf-8"></script>
+
+  <script type="text/template" id="todo-view-template">
+    <h3 class="<%= status %>">
+      <input type=checkbox
+        <% if (status === "complete") print("checked") %>
+      /><%= description %> <a href="#todos/<%= id %>">-></a></h3>
+  </script>
+
+  <script src="TodoView.js" charset="utf-8"></script>
+</body>
+</html>
