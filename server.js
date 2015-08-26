@@ -1,16 +1,18 @@
 var express = require('express');
+var logger = require('./logger');
+
 var app = express();
+
+app.use(logger);
+
+app.use('/b', express.static('backbone'));
+app.use('/jq', express.static('jq'));
 
 var todos = [
   {id: 1, description: 'Pick up milk.', status: 'incomplete'},
   {id: 2, description: 'Get a car wash', status: 'incomplete'},
   {id: 3, description: 'Learn Backbone.', status: 'incomplete'}
 ];
-
-app.use('/b', express.static('backbone'));
-
-app.use('/jq', express.static('jq'));
-
 app.get('/todos', function (req, res) {
   res.json(todos);
 });
@@ -38,4 +40,4 @@ app.get('/user/:user_id', function (req, res) {
 
 app.listen(3000);
 
-console.log(app.settings);
+// console.log(app.settings);
