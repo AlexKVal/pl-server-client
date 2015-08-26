@@ -1,9 +1,9 @@
 var express = require('express');
-var logger = require('./logger');
+var morgan = require('morgan')
 
 var app = express();
 
-app.use(logger);
+app.use(morgan('dev'));
 
 app.use('/b', express.static('backbone'));
 app.use('/jq', express.static('jq'));

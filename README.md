@@ -1,11 +1,12 @@
 # playground
 
 - Express
+  - Morgan
 - jQuery
 - Backbone
 
 ```
-> npm i express nodemon
+> npm i express nodemon morgan
 > nodemon --watch server.js server.js
 ```
 open http://localhost:3000/js/
