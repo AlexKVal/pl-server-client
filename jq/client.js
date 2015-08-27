@@ -8,12 +8,17 @@ $(function() {
       // todo.description + '</a>' +
       // '<span class="badge">' + todo.id + '</span>'
 
-      var content = todo.description + ' <span class="badge">' + todo.id + '</span>'
+      var isComplete = todo.status === 'complete';
+
+      var descr = todo.description;
+      if (isComplete) descr = '<del>' + descr + '</del>';
+
+      var badge = '<span class="badge">' + todo.id + '</span>';
 
       return $('<a>', {
         href: '/todos/'+todo.id,
-        html: content,
-        class: 'list-group-item'
+        html: descr + badge,
+        class: 'list-group-item' + (isComplete ? '' : ' list-group-item-warning')
       })
     });
     $('#todos').append(listItems);
