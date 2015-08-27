@@ -17,15 +17,41 @@
 </head>
 <body>
 
-  <div class="container">
-    <div class="row">
-      <div class="panel panel-info">
-        <div class="panel-heading">Todo List</div>
+  <div class="container-fluid">
+    <div class="well">
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="panel panel-info">
+            <div class="panel-heading">Todo List</div>
+            <div id="todos" class="list-group"></div>
+          </div>
+        </div>
 
-        <ul id="todos" class="list-group"></ul>
+        <div class="col-xs-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">New ToDo</div>
+            <div class="panel-body">
+              <form>
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <input name="description" id="description" class="form-control" type="text" placeholder="Enter description for ToDo...">
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input name="status" type="checkbox"> Status
+                  </label>
+                </div>
+                <hr>
+                <button type="submit" class="btn btn-success btn-lg">Save</button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+
 
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>

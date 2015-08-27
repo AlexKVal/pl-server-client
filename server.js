@@ -1,5 +1,6 @@
 var express = require('express');
 var morgan = require('morgan')
+var bodyParser = require('body-parser');
 
 var app = express();
 
@@ -8,13 +9,57 @@ app.use(morgan('dev'));
 app.use('/b', express.static('backbone'));
 app.use('/jq', express.static('jq'));
 
+
+
 var todos = [
   {id: 1, description: 'Pick up milk.', status: 'incomplete'},
-  {id: 2, description: 'Get a car wash', status: 'incomplete'},
+  {id: 2, description: 'Get a car wash', status: 'complete'},
   {id: 3, description: 'Learn Backbone.', status: 'incomplete'}
 ];
+var nextId = 4;
+// GET /todos
 app.get('/todos', function (req, res) {
-  res.json(todos);
+  if (req.query.limit >= 0) {
+    res.json(todos.slice(0, req.query.limit));
+  } else {
+    res.json(todos);
+  }
+});
+// POST /todos
+var jsonParser = bodyParser.json();
+var urlencodedParser = bodyParser.urlencoded({extended: false});
+app.post('/todos', jsonParser, urlencodedParser, function (req, res) {
+  var formData = req.body;
+
+  var newTodo = {
+    id: nextId++,
+    description: formData.description,
+    status: formData.status === 'on'
+  }
+  todos.push(newTodo);
+  console.log('newTodo', newTodo);
+  res.json(newTodo);
+})
+
+
+
+
+
+function statusNameToLowerCase(req, res, next) {
+  req.params.status_name = req.params.status_name.toLowerCase();
+  next();
+}
+app.param('status_name', statusNameToLowerCase);
+app.get('/status/:status_name', function (req, res) {
+  var filteredList = todos.filter(function statusFilter(el) {
+    return el.status === req.params.status_name;
+  })
+
+  if (filteredList.length === 0) {
+    res.status(404).json('Nothing has been found with status = ' + req.params.status_name);
+  } else {
+    res.json(filteredList);
+  }
 });
 
 app.get('/redir', function (req, res) {

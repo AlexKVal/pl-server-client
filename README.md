@@ -6,7 +6,7 @@
 - Backbone
 
 ```
-> npm i express nodemon morgan
+> npm i express nodemon morgan body-parser
 > nodemon --watch server.js server.js
 ```
 open http://localhost:3000/js/
