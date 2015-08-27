@@ -23,12 +23,14 @@ $(function() {
   $('form').on('submit', function (event) {
     event.preventDefault();
     var form = $(this);
-    var newTodoData = form.serialize();
+
+    var desc = form.find('input[name="description"]').val();
+    if (!desc) return;
 
     $.ajax({
       url: '/todos',
       type: 'POST',
-      data: newTodoData
+      data: form.serialize()
     })
     .done(function (newTodoItem) {
       appendToList([newTodoItem]);

@@ -18,35 +18,29 @@
 <body>
 
   <div class="container-fluid">
-    <div class="well">
-      <div class="row">
-        <div class="col-xs-6">
-          <div class="panel panel-info">
-            <div class="panel-heading">Todo List</div>
-            <div id="todos" class="list-group"></div>
-          </div>
+    <div class="row">
+      <div class="panel panel-info">
+        <div class="panel-heading">Todo List</div>
+
+        <div id="todos" class="list-group"></div>
+
+        <div class="panel-footer">
+          <form>
+            <div class="input-group">
+              <!-- status checkbox -->
+              <span class="input-group-addon">
+                <input name="status" type="checkbox">
+              </span>
+              <!-- input -->
+              <input name="description" type="text" class="form-control" placeholder="Enter ToDo...">
+              <!-- save button -->
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-success">Save</button>
+              </span>
+            </div>
+          </form>
         </div>
 
-        <div class="col-xs-6">
-          <div class="panel panel-primary">
-            <div class="panel-heading">New ToDo</div>
-            <div class="panel-body">
-              <form>
-                <div class="form-group">
-                  <label for="description">Description</label>
-                  <input name="description" id="description" class="form-control" type="text" placeholder="Enter description for ToDo...">
-                </div>
-                <div class="checkbox">
-                  <label>
-                    <input name="status" type="checkbox"> Status
-                  </label>
-                </div>
-                <hr>
-                <button type="submit" class="btn btn-success btn-lg">Save</button>
-              </form>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
