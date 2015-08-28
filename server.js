@@ -37,8 +37,8 @@ app.post('/todos', jsonParser, urlencodedParser, function (req, res) {
     status: formData.status === 'on' ? 'complete' : 'incomplete'
   }
   todos.push(newTodo);
-  console.log('newTodo', newTodo);
-  res.json(newTodo);
+
+  res.status(201).json(newTodo); // 201 Created
 })
 
 
