@@ -5,18 +5,13 @@ $(function() {
     var listItems = todos.reverse().map(function (todo) {
       var isComplete = todo.status === 'complete';
 
-      var badge = '<span class="badge pull-left">' + todo.id + '</span>';
+      var badge = Mustache.render('<span class="badge pull-left">{{id}}</span>', todo);
 
-      var descr;
-      if (isComplete) {
-        descr = '<del>' + todo.description + '</del>';
-      } else {
-        descr = todo.description;
-      }
+      if (isComplete) todo.description = '<del>' + todo.description + '</del>';
 
-      var itemAnchor = '<a href="/todos/' + todo.id + '" class="cursive">' + descr + '</a>';
+      var itemAnchor = Mustache.render('<a href="/todos/{{id}}" class="cursive">{{&description}}</a>', todo);
 
-      var deleteButton = '<a href="#" class="btn btn-info btn-sm pull-right"><span class="glyphicon glyphicon-remove"></span></a>'
+      var deleteButton = '<a href="#" class="btn btn-info btn-sm pull-right"><span class="glyphicon glyphicon-remove"></span></a>';
 
       return $('<li>', {
         html: badge + '&nbsp;&nbsp;' + itemAnchor + deleteButton,
