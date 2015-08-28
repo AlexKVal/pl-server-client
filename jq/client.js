@@ -3,21 +3,23 @@ $(function() {
 
   function appendToList(todos) {
     var listItems = todos.reverse().map(function (todo) {
-      // return $('<li>', {text: todo.description, class: 'list-group-item'})
-      // var content = '<a href="/todos/' + todo.id + '">' +
-      // todo.description + '</a>' +
-      // '<span class="badge">' + todo.id + '</span>'
-
       var isComplete = todo.status === 'complete';
 
-      var descr = todo.description;
-      if (isComplete) descr = '<del>' + descr + '</del>';
+      var badge = '<span class="badge pull-left">' + todo.id + '</span>';
 
-      var badge = '<span class="badge">' + todo.id + '</span>';
+      var descr;
+      if (isComplete) {
+        descr = '<del>' + todo.description + '</del>';
+      } else {
+        descr = todo.description;
+      }
 
-      return $('<a>', {
-        href: '/todos/'+todo.id,
-        html: descr + badge,
+      var itemAnchor = '<a href="/todos/' + todo.id + '">' + descr + '</a>';
+
+      var deleteButton = '<a href="#" class="btn btn-info btn-sm pull-right"><span class="glyphicon glyphicon-remove"></span></a>'
+
+      return $('<li>', {
+        html: badge + '&nbsp;&nbsp;' + itemAnchor + deleteButton,
         class: 'list-group-item' + (isComplete ? '' : ' list-group-item-warning')
       })
     });
