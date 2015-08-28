@@ -11,6 +11,10 @@
       font-family: 'Courgette', cursive;
       text-shadow: 4px 4px 4px #aaa;
     }
+    #todos .badge,
+    .cursive {
+      font-size: 22px;
+    }
     .cursive:hover {
       text-decoration: none;
     }
@@ -47,14 +51,16 @@
 
   <!-- Templates -->
   <script id="todoItem" type="x-tmpl-mustache">
-  <li class="{{liClass}}">
-    <span class="badge pull-left">{{id}}</span>
-    &nbsp;&nbsp;
-    <a href="/todos/{{id}}" class="cursive">{{&desc}}</a>
+  {{#todos}}
+  <li class="list-group-item {{liClass}}">
+    <span class="badge pull-left">{{id}}</span>&nbsp;&nbsp;
+    <a href="/todos/{{id}}" class="cursive">'{{&desc}}'</a>
     <a href="#" class="btn btn-info btn-sm pull-right">
       <span class="glyphicon glyphicon-remove"></span>
     </a>
   </li>
+  {{/todos}}
+  {{^todos}}<li class="list-group-item cursive">No ToDo entries</li>{{/todos}}
   </script>
 
 

@@ -5,21 +5,21 @@ $(function() {
     var todoItemTemplate = $('#todoItem').html();
     Mustache.parse(todoItemTemplate); // cache
 
-    var listItems = todos.reverse().map(function (todo) {
-      var isComplete = todo.status === 'complete';
-
-      todo.desc = function () {
-        return isComplete ? '<del>' + todo.description + '</del>' : todo.description
+    var view = {
+      todos: todos.reverse(),
+      desc: function () {
+        return this.status === 'complete' ?
+          '<del>' + this.description + '</del>'
+          : this.description
+      },
+      liClass: function () {
+        return this.status === 'complete' ? '' : 'list-group-item-warning'
       }
+    };
 
-      todo.liClass = function () {
-        return 'list-group-item' + (isComplete ? '' : ' list-group-item-warning')
-      }
+    var listItems = Mustache.render(todoItemTemplate, view);
 
-      return Mustache.render(todoItemTemplate, todo);
-    });
-
-    $('#todos').prepend(listItems);
+    $('#todos').html(listItems);
   }
 
   // form
