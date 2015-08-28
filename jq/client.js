@@ -1,23 +1,24 @@
 $(function() {
-  $.get('/todos', appendToList);
+  $.get('/todos', renderList);
 
-  function appendToList(todos) {
+  function renderList(todos) {
+    var todoItemTemplate = $('#todoItem').html();
+    Mustache.parse(todoItemTemplate); // cache
+
     var listItems = todos.reverse().map(function (todo) {
       var isComplete = todo.status === 'complete';
 
-      var badge = Mustache.render('<span class="badge pull-left">{{id}}</span>', todo);
+      todo.desc = function () {
+        return isComplete ? '<del>' + todo.description + '</del>' : todo.description
+      }
 
-      if (isComplete) todo.description = '<del>' + todo.description + '</del>';
+      todo.liClass = function () {
+        return 'list-group-item' + (isComplete ? '' : ' list-group-item-warning')
+      }
 
-      var itemAnchor = Mustache.render('<a href="/todos/{{id}}" class="cursive">{{&description}}</a>', todo);
-
-      var deleteButton = '<a href="#" class="btn btn-info btn-sm pull-right"><span class="glyphicon glyphicon-remove"></span></a>';
-
-      return $('<li>', {
-        html: badge + '&nbsp;&nbsp;' + itemAnchor + deleteButton,
-        class: 'list-group-item' + (isComplete ? '' : ' list-group-item-warning')
-      })
+      return Mustache.render(todoItemTemplate, todo);
     });
+
     $('#todos').prepend(listItems);
   }
 
@@ -35,7 +36,7 @@ $(function() {
       data: form.serialize()
     })
     .done(function (newTodoItem) {
-      appendToList([newTodoItem]);
+      renderList([newTodoItem]);
       form.trigger('reset');
     })
   })
