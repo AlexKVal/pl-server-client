@@ -1,6 +1,7 @@
 var express = require('express');
 var morgan = require('morgan')
 var bodyParser = require('body-parser');
+var _ = require('lodash');
 
 var app = express();
 
@@ -46,9 +47,7 @@ app.param('id', function (req, res, next, id) {
   next();
 })
 app.delete('/todos/:id', function (req, res) {
-  todos = todos.filter(function (todoItem) {
-    return todoItem.id !== req.id;
-  })
+  _.remove(todos, 'id', req.id);
   res.sendStatus(200);
 })
 
