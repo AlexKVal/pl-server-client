@@ -18,6 +18,12 @@ var todos = [
   {id: 3, description: 'Learn Backbone.', status: 'incomplete'}
 ];
 var nextId = 4;
+
+app.param('id', function (req, res, next, id) {
+  req.id = parseInt(id, 10);
+  next();
+})
+
 // GET /todos
 app.get('/todos', function (req, res) {
   if (req.query.limit >= 0) {
@@ -26,6 +32,12 @@ app.get('/todos', function (req, res) {
     res.json(todos);
   }
 });
+// GET /todos/:id
+app.get('/todos/:id', function (req, res) {
+  var foundTodoItem = _.find(todos, 'id', req.id);
+  if (foundTodoItem) res.json(foundTodoItem);
+  else res.status(404).json('There is no todo entry with id = ' + req.id);
+})
 // POST /todos
 var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({extended: false});
@@ -42,10 +54,6 @@ app.post('/todos', jsonParser, urlencodedParser, function (req, res) {
   res.status(201).json(newTodo); // 201 Created
 })
 // DELETE /todos
-app.param('id', function (req, res, next, id) {
-  req.id = parseInt(id, 10);
-  next();
-})
 app.delete('/todos/:id', function (req, res) {
   _.remove(todos, 'id', req.id);
   res.sendStatus(200);
