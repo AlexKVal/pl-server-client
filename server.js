@@ -19,45 +19,45 @@ var todos = [
 ];
 var nextId = 4;
 
+var jsonParser = bodyParser.json();
+var urlencodedParser = bodyParser.urlencoded({extended: false});
+
 app.param('id', function (req, res, next, id) {
   req.id = parseInt(id, 10);
   next();
 })
 
-// GET /todos
-app.get('/todos', function (req, res) {
-  if (req.query.limit >= 0) {
-    res.json(todos.slice(0, req.query.limit));
-  } else {
-    res.json(todos);
-  }
-});
-// GET /todos/:id
-app.get('/todos/:id', function (req, res) {
-  var foundTodoItem = _.find(todos, 'id', req.id);
-  if (foundTodoItem) res.json(foundTodoItem);
-  else res.status(404).json('There is no todo entry with id = ' + req.id);
-})
-// POST /todos
-var jsonParser = bodyParser.json();
-var urlencodedParser = bodyParser.urlencoded({extended: false});
-app.post('/todos', jsonParser, urlencodedParser, function (req, res) {
-  var formData = req.body;
+app.route('/todos')
+  .get(function (req, res) {
+    if (req.query.limit >= 0) {
+      res.json(todos.slice(0, req.query.limit));
+    } else {
+      res.json(todos);
+    }
+  })
+  .post(jsonParser, urlencodedParser, function (req, res) {
+    var formData = req.body;
 
-  var newTodo = {
-    id: nextId++,
-    description: formData.description,
-    status: formData.status === 'on' ? 'complete' : 'incomplete'
-  }
-  todos.push(newTodo);
+    var newTodo = {
+      id: nextId++,
+      description: formData.description,
+      status: formData.status === 'on' ? 'complete' : 'incomplete'
+    }
+    todos.push(newTodo);
 
-  res.status(201).json(newTodo); // 201 Created
-})
-// DELETE /todos
-app.delete('/todos/:id', function (req, res) {
-  _.remove(todos, 'id', req.id);
-  res.sendStatus(200);
-})
+    res.status(201).json(newTodo); // 201 Created
+  })
+
+app.route('/todos/:id')
+  .get(function (req, res) {
+    var foundTodoItem = _.find(todos, 'id', req.id);
+    if (foundTodoItem) res.json(foundTodoItem);
+    else res.status(404).json('There is no todo entry with id = ' + req.id);
+  })
+  .delete(function (req, res) {
+    _.remove(todos, 'id', req.id);
+    res.sendStatus(200);
+  })
 
 
 
