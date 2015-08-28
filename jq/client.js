@@ -7,18 +7,21 @@ $(function() {
   var todoItemTemplate = $('#todoItem').html();
   Mustache.parse(todoItemTemplate); // cache
 
+  function isDone() {
+    return this.status === 'complete' ? 'done' : ''
+  }
+  function liClass() {
+    return this.status === 'incomplete' ? 'list-group-item-warning' : ''
+  }
+
   function renderList(todos) {
     var view = {
       todos: todos.reverse(),
-      isDone: function () {
-        return this.status === 'complete' ? 'done' : ''
-      },
-      liClass: function () {
-        return this.status === 'incomplete' ? 'list-group-item-warning' : ''
-      }
+      isDone: isDone,
+      liClass: liClass
     };
 
-    var listItems = Mustache.render(todoListTemplate, view);
+    var listItems = Mustache.render(todoListTemplate, view, {todoItem: todoItemTemplate});
 
     $('#todos').html(listItems);
   }
@@ -37,12 +40,8 @@ $(function() {
       data: form.serialize()
     })
     .done(function (newTodoItem) {
-      newTodoItem.isDone = function () {
-        return this.status === 'complete' ? 'done' : ''
-      }
-      newTodoItem.liClass = function () {
-        return this.status === 'incomplete' ? 'list-group-item-warning' : ''
-      }
+      newTodoItem.isDone = isDone
+      newTodoItem.liClass = liClass
       var liItem = Mustache.render(todoItemTemplate, newTodoItem);
       $('#todos').prepend(liItem);
       form.trigger('reset');

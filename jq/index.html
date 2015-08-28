@@ -47,7 +47,7 @@
           </form>
         </div>
 
-        <ul id="todos" class="list-group"></ul>
+        <ul id="todos" class="list-group">Loading...</ul>
       </div>
     </div>
   </div>
@@ -64,13 +64,7 @@
   </script>
   <script id="todoList" type="x-tmpl-mustache">
   {{#todos}}
-  <li class="list-group-item {{liClass}}">
-    <span class="badge pull-left">{{id}}</span>&nbsp;&nbsp;
-    <a href="/todos/{{id}}" class="cursive {{isDone}}">'{{description}}'</a>
-    <a href="#" data-id="{{id}}" class="btn btn-info btn-sm pull-right">
-      <span class="glyphicon glyphicon-remove"></span>
-    </a>
-  </li>
+    {{> todoItem}}
   {{/todos}}
   {{^todos}}<li class="list-group-item cursive">No ToDo entries</li>{{/todos}}
   </script>
