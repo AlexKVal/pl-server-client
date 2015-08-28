@@ -40,7 +40,17 @@ app.post('/todos', jsonParser, urlencodedParser, function (req, res) {
 
   res.status(201).json(newTodo); // 201 Created
 })
-
+// DELETE /todos
+app.param('id', function (req, res, next, id) {
+  req.id = parseInt(id, 10);
+  next();
+})
+app.delete('/todos/:id', function (req, res) {
+  todos = todos.filter(function (todoItem) {
+    return todoItem.id !== req.id;
+  })
+  res.sendStatus(200);
+})
 
 
 
@@ -66,7 +76,7 @@ app.get('/redir', function (req, res) {
   res.redirect(301, '/todos');
 });
 
-app.param(['user_id', 'id'], function (req, res, next, user_id) {
+app.param(['user_id'], function (req, res, next, user_id) {
   console.log('app.param() user_id: ', user_id);
   req.user = {id: user_id};
   next();

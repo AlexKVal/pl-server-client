@@ -38,4 +38,22 @@ $(function() {
       form.trigger('reset');
     })
   })
+
+  // Delete
+  $('#todos').on('click', 'a[data-id]', function (event) {
+    event.preventDefault();
+
+    var target = $(event.currentTarget);
+    var itemId = target.data('id');
+
+    console.log('delete ', itemId);
+
+    $.ajax({
+      type: 'DELETE',
+      url: '/todos/' + itemId
+    })
+    .done(function () {
+      target.parents('li').remove();
+    })
+  })
 });
