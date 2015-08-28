@@ -7,13 +7,11 @@ $(function() {
 
     var view = {
       todos: todos.reverse(),
-      desc: function () {
-        return this.status === 'complete' ?
-          '<del>' + this.description + '</del>'
-          : this.description
+      isDone: function () {
+        return this.status === 'complete' ? 'done' : ''
       },
       liClass: function () {
-        return this.status === 'complete' ? '' : 'list-group-item-warning'
+        return this.status === 'incomplete' ? 'list-group-item-warning' : ''
       }
     };
 
