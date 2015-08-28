@@ -1,10 +1,13 @@
 $(function() {
   $.get('/todos', renderList);
 
-  function renderList(todos) {
-    var todoItemTemplate = $('#todoItem').html();
-    Mustache.parse(todoItemTemplate); // cache
+  var todoListTemplate = $('#todoList').html();
+  Mustache.parse(todoListTemplate); // cache
 
+  var todoItemTemplate = $('#todoItem').html();
+  Mustache.parse(todoItemTemplate); // cache
+
+  function renderList(todos) {
     var view = {
       todos: todos.reverse(),
       isDone: function () {
@@ -15,7 +18,7 @@ $(function() {
       }
     };
 
-    var listItems = Mustache.render(todoItemTemplate, view);
+    var listItems = Mustache.render(todoListTemplate, view);
 
     $('#todos').html(listItems);
   }
@@ -34,7 +37,14 @@ $(function() {
       data: form.serialize()
     })
     .done(function (newTodoItem) {
-      renderList([newTodoItem]);
+      newTodoItem.isDone = function () {
+        return this.status === 'complete' ? 'done' : ''
+      }
+      newTodoItem.liClass = function () {
+        return this.status === 'incomplete' ? 'list-group-item-warning' : ''
+      }
+      var liItem = Mustache.render(todoItemTemplate, newTodoItem);
+      $('#todos').prepend(liItem);
       form.trigger('reset');
     })
   })
