@@ -2,7 +2,7 @@ $(function() {
   $.get('/todos', appendToList);
 
   function appendToList(todos) {
-    var listItems = todos.map(function (todo) {
+    var listItems = todos.reverse().map(function (todo) {
       // return $('<li>', {text: todo.description, class: 'list-group-item'})
       // var content = '<a href="/todos/' + todo.id + '">' +
       // todo.description + '</a>' +
@@ -21,7 +21,7 @@ $(function() {
         class: 'list-group-item' + (isComplete ? '' : ' list-group-item-warning')
       })
     });
-    $('#todos').append(listItems);
+    $('#todos').prepend(listItems);
   }
 
   // form
