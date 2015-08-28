@@ -14,7 +14,7 @@ $(function() {
         descr = todo.description;
       }
 
-      var itemAnchor = '<a href="/todos/' + todo.id + '">' + descr + '</a>';
+      var itemAnchor = '<a href="/todos/' + todo.id + '" class="cursive">' + descr + '</a>';
 
       var deleteButton = '<a href="#" class="btn btn-info btn-sm pull-right"><span class="glyphicon glyphicon-remove"></span></a>'
 
