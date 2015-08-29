@@ -1,12 +1,68 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+  <link href='http://fonts.googleapis.com/css?family=Courgette' rel='stylesheet' type='text/css'>
+
   <title>Runner</title>
+
+  <style>
+    .cursive {
+      font-family: 'Courgette', cursive;
+      text-shadow: 4px 4px 4px #aaa;
+    }
+    #todos .badge,
+    .cursive {
+      font-size: 22px;
+    }
+    .cursive:hover {
+      text-decoration: none;
+    }
+    .complete {
+      color: #bbb;
+      text-decoration: line-through;
+    }
+  </style>
 </head>
 <body>
 
-  <div id="app"></div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <form method="post">
+            <div class="input-group">
+              <!-- status checkbox -->
+              <span class="input-group-addon">
+                <input name="status" type="checkbox">
+              </span>
+              <!-- input -->
+              <input name="description" type="text" class="form-control cursive" placeholder="Enter ToDo..." autofocus>
+              <!-- save button -->
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-success">Save</button>
+              </span>
+            </div>
+          </form>
+        </div>
 
+        <ul id="todos" class="list-group">Loading...</ul>
+      </div>
+    </div>
+  </div>
+
+  <script id="todo-item-template" type="text/template">
+    <span class="badge pull-left"><%= id %></span>&nbsp;&nbsp;
+    <a href="/todos/<%= id %>" class="cursive <% if (status === 'complete') print('complete') %>"><%= description %></a>
+    <a href="#" data-id="<%= id %>" class="btn btn-info btn-sm pull-right">
+      <span class="glyphicon glyphicon-remove"></span>
+    </a>
+  </script>
+
+
+  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" charset="utf-8"></script>
 
   <script src="https://code.jquery.com/jquery-2.1.4.min.js" charset="utf-8"></script>
@@ -14,13 +70,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.2/backbone-min.js" charset="utf-8"></script>
 
-  <script type="text/template" id="todo-view-template">
-    <h3 class="<%= status %>">
-      <input type=checkbox
-        <% if (status === "complete") print("checked") %>
-      /><%= description %> <a href="#todos/<%= id %>">-></a></h3>
-  </script>
-
-  <script src="TodoView.js" charset="utf-8"></script>
+  <script src="client.js" charset="utf-8"></script>
 </body>
 </html>
