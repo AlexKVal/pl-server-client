@@ -34,7 +34,7 @@ var TodoView = Backbone.View.extend({
     if (!options.notHighlight) this.$el.effect('highlight', {}, 1000);
   },
   render: function() {
-    if (this.model.isComplete()) {
+    if (!this.model.isComplete()) {
       this.$el.addClass('list-group-item-warning')
     }
 
