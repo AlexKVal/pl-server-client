@@ -53,7 +53,7 @@
     </div>
   </div>
 
-  <script id="todo-item-template" type="text/template">
+  <script id="todo-item-template" type="text/x-uderscore-template">
     <span class="badge pull-left"><%= id %></span>&nbsp;&nbsp;
     <a href="/todos/<%= id %>" class="cursive <% if (status === 'complete') print('complete') %>"><%= description %></a>
     <a href="#" data-id="<%= id %>" class="btn btn-info btn-sm pull-right">
@@ -63,13 +63,13 @@
 
 
   <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
-  <script src="https://code.jquery.com/jquery-2.1.4.min.js" charset="utf-8"></script>
-  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" charset="utf-8"></script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.2/backbone-min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.2/backbone-min.js"></script>
 
-  <script src="client.js" charset="utf-8"></script>
+  <script src="client.js"></script>
 </body>
 </html>
