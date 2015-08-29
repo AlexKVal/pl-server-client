@@ -20,6 +20,24 @@ router.param('id', function (req, res, next, id) {
   next();
 })
 
+/**
+ * jQuery client sends urlencoded form data and 'status' is the checkbox input
+ * Backbone Model sends json data
+ */
+function parsePostedData(req, res, next) {
+  var postedData = req.body;
+
+  if (postedData.status) {
+    if (postedData.status === 'on') {
+      postedData.status = 'complete';
+    }
+  } else {
+    postedData.status = 'incomplete';
+  }
+
+  next();
+}
+
 router.route('/')
   .get(function (req, res) {
     if (req.query.limit >= 0) {
@@ -28,13 +46,13 @@ router.route('/')
       res.json(todos);
     }
   })
-  .post(jsonParser, urlencodedParser, function (req, res) {
-    var formData = req.body;
+  .post(jsonParser, urlencodedParser, parsePostedData, function (req, res) {
+    var postedData = req.body;
 
     var newTodo = {
       id: nextId++,
-      description: formData.description,
-      status: formData.status === 'on' ? 'complete' : 'incomplete'
+      description: postedData.description,
+      status: postedData.status
     }
     todos.push(newTodo);
 
@@ -51,13 +69,14 @@ router.route('/:id')
     _.remove(todos, 'id', req.id);
     res.sendStatus(204);
   })
-  .put(jsonParser, urlencodedParser, function (req, res) {
+  .put(jsonParser, urlencodedParser, parsePostedData, function (req, res) {
     var foundTodoItem = _.find(todos, 'id', req.id);
     if (!foundTodoItem) res.status(404).json('There is no todo entry with id = ' + req.id);
 
-    var formData = req.body;
-    foundTodoItem.description = formData.description;
-    foundTodoItem.status = formData.status === 'on' ? 'complete' : 'incomplete';
+    var postedData = req.body;
+
+    foundTodoItem.description = postedData.description;
+    foundTodoItem.status = postedData.status
 
     res.status(204).json(foundTodoItem);
   })

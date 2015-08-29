@@ -21,28 +21,46 @@ var TodoItem = Backbone.Model.extend({
 var TodoView = Backbone.View.extend({
   tagName: 'li',
   className: 'list-group-item',
-
   template: _.template( $('#todo-item-template').html() ),
+
+  events: {
+    'click a[data-done-id]': 'doneHandler'
+  },
 
   initialize: function () {
     this.listenTo(this.model, 'change', this.changeModel);
     this.listenTo(this.model, 'destroy', this.remove);
     this.listenTo(this.model, 'hide', this.remove);
   },
+
+  // DOM events
+  doneHandler: function (event) {
+    event.preventDefault();
+
+    var id = $(event.currentTarget).data('done-id');
+    console.log('done', id);
+    console.log(this.model.toggleStatus());
+  },
+
+  // Model events
   changeModel: function (model, options) {
     this.render();
     if (!options.notHighlight) this.$el.effect('highlight', {}, 1000);
   },
+  remove: function () {
+    this.$el.remove();
+  },
+
+
   render: function() {
     if (!this.model.isComplete()) {
       this.$el.addClass('list-group-item-warning')
+    } else {
+      this.$el.removeClass('list-group-item-warning')
     }
 
     this.$el.html(this.template(this.model.attributes))
     return this
-  },
-  remove: function () {
-    this.$el.remove();
   }
 });
 
@@ -53,7 +71,7 @@ var TodoListView = Backbone.View.extend({
   },
   addItem: function (todoItem) {
     var todoView = new TodoView({model: todoItem})
-    this.$el.append(todoView.render().el)
+    this.$el.prepend(todoView.render().el)
   },
   addAll: function () {
     this.collection.forEach(this.addItem, this)
