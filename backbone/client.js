@@ -24,31 +24,33 @@ var TodoView = Backbone.View.extend({
   template: _.template( $('#todo-item-template').html() ),
 
   events: {
-    'click a[data-done-id]': 'doneHandler'
+    'click a[data-done-id]': 'doneHandler',
+    'click a[data-del-id]': 'removeHandler'
   },
 
   initialize: function () {
-    this.listenTo(this.model, 'change', this.changeModel);
-    this.listenTo(this.model, 'destroy', this.remove);
-    this.listenTo(this.model, 'hide', this.remove);
+    this.listenTo(this.model, 'change', this.onModelChanged);
+    this.listenTo(this.model, 'destroy', this.onModelRemove);
   },
 
   // DOM events
   doneHandler: function (event) {
     event.preventDefault();
-
-    var id = $(event.currentTarget).data('done-id');
-    console.log('done', id);
-    console.log(this.model.toggleStatus());
+    this.model.toggleStatus();
+  },
+  removeHandler: function (event) {
+    event.preventDefault();
+    this.$el.effect('highlight', {}, 200);
+    this.model.destroy({wait: true});
   },
 
   // Model events
-  changeModel: function (model, options) {
+  onModelChanged: function (model, options) {
     this.render();
     if (!options.notHighlight) this.$el.effect('highlight', {}, 1000);
   },
-  remove: function () {
-    this.$el.remove();
+  onModelRemove: function () {
+    this.$el.slideUp();
   },
 
 
@@ -83,12 +85,6 @@ var TodoListView = Backbone.View.extend({
 })
 
 var TodoList = Backbone.Collection.extend({
-  initialize: function () {
-    this.on('remove', this.hideModel)
-  },
-  hideModel: function (model) {
-    model.trigger('hide')
-  },
   model: TodoItem,
   url: '/todos'
 });

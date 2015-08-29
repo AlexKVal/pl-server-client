@@ -68,6 +68,7 @@ router.route('/:id')
   .delete(function (req, res) {
     _.remove(todos, 'id', req.id);
     res.sendStatus(204);
+    // res.sendStatus(404);
   })
   .put(jsonParser, urlencodedParser, parsePostedData, function (req, res) {
     var foundTodoItem = _.find(todos, 'id', req.id);
