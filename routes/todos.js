@@ -49,7 +49,17 @@ router.route('/:id')
   })
   .delete(function (req, res) {
     _.remove(todos, 'id', req.id);
-    res.sendStatus(200);
+    res.sendStatus(204);
+  })
+  .put(jsonParser, urlencodedParser, function (req, res) {
+    var foundTodoItem = _.find(todos, 'id', req.id);
+    if (!foundTodoItem) res.status(404).json('There is no todo entry with id = ' + req.id);
+
+    var formData = req.body;
+    foundTodoItem.description = formData.description;
+    foundTodoItem.status = formData.status === 'on' ? 'complete' : 'incomplete';
+
+    res.status(204).json(foundTodoItem);
   })
 
 module.exports = router;

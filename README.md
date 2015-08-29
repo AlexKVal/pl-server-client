@@ -8,7 +8,7 @@
 
 ```
 > npm i express nodemon morgan body-parser lodash
-> nodemon --watch server.js server.js
+> nodemon --watch server.js --watch routes/todos.js server.js
 ```
 - open http://localhost:3000/js/
 - open http://localhost:3000/b/

@@ -13,9 +13,10 @@ var TodoItem = Backbone.Model.extend({
     }
 
     console.log('save model:', this.attributes);
-    // this.save(); // PUT /todos/1
+    this.save();
   }
 });
+
 
 var TodoView = Backbone.View.extend({
   tagName: 'li',
