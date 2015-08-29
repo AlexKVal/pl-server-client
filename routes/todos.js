@@ -14,6 +14,13 @@ var nextId = 4;
 var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
+function pause(delay, err) {
+  delay = delay || 1000;
+
+  return function(req, res, next){
+    setTimeout(next, delay, err);
+  };
+};
 
 router.param('id', function (req, res, next, id) {
   req.id = parseInt(id, 10);
@@ -46,7 +53,7 @@ router.route('/')
       res.json(todos);
     }
   })
-  .post(jsonParser, urlencodedParser, parsePostedData, function (req, res) {
+  .post(jsonParser, urlencodedParser, parsePostedData, pause(1000), function (req, res) {
     var postedData = req.body;
 
     var newTodo = {
@@ -70,7 +77,7 @@ router.route('/:id')
     res.sendStatus(204);
     // res.sendStatus(404);
   })
-  .put(jsonParser, urlencodedParser, parsePostedData, function (req, res) {
+  .put(jsonParser, parsePostedData, function (req, res) {
     var foundTodoItem = _.find(todos, 'id', req.id);
     if (!foundTodoItem) res.status(404).json('There is no todo entry with id = ' + req.id);
 

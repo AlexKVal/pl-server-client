@@ -32,7 +32,7 @@
     <div class="row">
       <div class="panel panel-info">
         <div class="panel-heading">
-          <form method="post">
+          <form action="/todos" method="post">
             <div class="input-group">
               <!-- status checkbox -->
               <span class="input-group-addon">
@@ -55,7 +55,7 @@
 
   <script id="todo-item-template" type="text/x-uderscore-template">
     <span class="badge pull-left"><%= id %></span>&nbsp;&nbsp;
-    <a href="/todos/<%= id %>" class="cursive <% if (status === 'complete') print('complete') %>"><%= description %></a>
+    <a href="#todos/<%= id %>" class="cursive <% if (status === 'complete') print('complete') %>"><%= _.escape(description) %></a>
     <a href="#" data-del-id="<%= id %>" class="btn btn-danger btn-sm pull-right">
       <span class="glyphicon glyphicon-remove"></span>
     </a>
