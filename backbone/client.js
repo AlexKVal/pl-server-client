@@ -50,8 +50,8 @@ var TodoView = Backbone.View.extend({
 
   // Model events
   onModelChanged: function () {
+    console.log('onModelChanged');
     this.render();
-    this.$el.effect('highlight');
   },
   onModelRemove: function () {
     this.$el.slideUp(function() {
@@ -66,6 +66,9 @@ var TodoView = Backbone.View.extend({
     } else {
       this.$el.removeClass('list-group-item-warning')
     }
+
+    // this.$el.data('id', this.model.id);
+    this.$el.attr("data-id", this.model.id);
 
     this.$el.html(this.template(this.model.attributes))
     return this
@@ -121,7 +124,6 @@ var NewItemFormView = Backbone.View.extend({
 });
 
 var EditFormView = Backbone.View.extend({
-  tagName: 'form',
   template: _.template( $('#edit-form').html() ),
   events: {
     submit: 'onSubmit'
@@ -130,20 +132,29 @@ var EditFormView = Backbone.View.extend({
     event.preventDefault();
     console.log('submit edited');
 
-    this.model.set({
+    console.log('edit form: this ', this);
+
+    var newData = {
       description: this.$('input[name=description]').val(),
       status: this.$('input[name=status]').prop('checked') ? 'complete' : 'incomplete'
-    });
+    };
+    console.log('newData: ', newData);
 
-    this.model.save().done(function () {
-      this.$el.slideUp(function() {
-        this.remove();
-        window.TodoApp.navigate('/');
-      });
-    }.bind(this));
+    this.$el.html( this.savedListItem );
+
+    this.model.save(newData, {
+      success: function () {
+        window.TodoApp.navigate('/', {trigger: true});
+      }
+    });
   },
   render: function() {
-    this.$el.html(this.template(this.model.attributes));
+    this.savedListItem = this.$('.list-item').detach();
+    console.log('render edit form: model ', this.model.attributes);
+    var editForm = this.template(this.model.attributes);
+    this.$el.html( editForm );
+    this.$('input[name=description]').focus();
+
     return this;
   }
 });
@@ -172,10 +183,14 @@ var TodoRouter = Backbone.Router.extend({
   },
   edit: function (id) {
     console.log('edit route: ', id);
-    var editForm = new EditFormView({ model: this.todoList.get(id) });
-    var html = editForm.render().el;
-    console.log(html);
-    $('div.panel-footer').html(html);
+
+    var model = this.todoList.get(id);
+    console.log('edit model: ', model.attributes);
+
+    new EditFormView({
+      el: $('li[data-id=' + id + ']'),
+      model: model
+    }).render();
   },
   notFound: function () {
     console.log('404 Nothing here');

@@ -9,6 +9,9 @@
   <title>Backbone</title>
 
   <style>
+    .main {
+      max-width: 500px;
+    }
     .cursive {
       font-family: 'Courgette', cursive;
       text-shadow: 4px 4px 4px #aaa;
@@ -28,7 +31,7 @@
 </head>
 <body>
 
-  <div class="container-fluid">
+  <div class="main container-fluid">
     <div class="row">
       <div class="panel panel-info">
         <div class="panel-heading">
@@ -49,13 +52,12 @@
         </div>
 
         <ul id="todos" class="list-group">Loading...</ul>
-
-        <div class="panel panel-footer"></div>
       </div>
     </div>
   </div>
 
   <script id="todo-item-template" type="text/x-uderscore-template">
+  <div class="list-item">
     <span class="badge pull-left"><%= id %></span>&nbsp;&nbsp;
     <a href="#todos/<%= id %>/edit" class="cursive <% if (status === 'complete') print('complete') %>"><%= _.escape(description) %></a>
     <a href="#" data-del-id="<%= id %>" class="btn btn-danger btn-sm pull-right">
@@ -64,9 +66,11 @@
     <a href="#" data-done-id="<%= id %>" class="btn btn-success btn-sm pull-right">
       <span class="glyphicon glyphicon-ok"></span>
     </a>
+  </div>
   </script>
 
   <script id="edit-form" type="text/x-uderscore-template">
+  <form>
     <div class="input-group">
       <span class="input-group-addon">
         <input name="status" type="checkbox" <% if (status === 'complete') print('checked') %>>
@@ -76,6 +80,7 @@
         <button type="submit" class="btn btn-success">Save</button>
       </span>
     </div>
+  </form>
   </script>
 
   <!-- Scripts -->

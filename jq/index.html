@@ -7,6 +7,9 @@
 
   <link href='http://fonts.googleapis.com/css?family=Courgette' rel='stylesheet' type='text/css'>
   <style>
+    .main {
+      max-width: 500px;
+    }
     .cursive {
       font-family: 'Courgette', cursive;
       text-shadow: 4px 4px 4px #aaa;
@@ -27,7 +30,7 @@
 </head>
 <body>
 
-  <div class="container-fluid">
+  <div class="main container-fluid">
     <div class="row">
       <div class="panel panel-info">
         <div class="panel-heading">
@@ -56,7 +59,7 @@
   <script id="todoItem" type="x-tmpl-mustache">
   <li class="list-group-item{{^done}} list-group-item-warning{{/done}}">
     <span class="badge pull-left">{{id}}</span>&nbsp;&nbsp;
-    <a href="/todos/{{id}}" class="cursive{{#done}} done{{/done}}">'{{description}}'</a>
+    <a href="/todos/{{id}}" class="cursive{{#done}} done{{/done}}">{{description}}</a>
     <a href="#" data-id="{{id}}" class="btn btn-info btn-sm pull-right">
       <span class="glyphicon glyphicon-remove"></span>
     </a>
