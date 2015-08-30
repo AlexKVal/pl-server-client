@@ -32,7 +32,7 @@
     <div class="row">
       <div class="panel panel-info">
         <div class="panel-heading">
-          <form action="/todos" method="post">
+          <form id="#new-form" action="/todos" method="post">
             <div class="input-group">
               <!-- status checkbox -->
               <span class="input-group-addon">
@@ -49,13 +49,15 @@
         </div>
 
         <ul id="todos" class="list-group">Loading...</ul>
+
+        <div class="panel panel-footer"></div>
       </div>
     </div>
   </div>
 
   <script id="todo-item-template" type="text/x-uderscore-template">
     <span class="badge pull-left"><%= id %></span>&nbsp;&nbsp;
-    <a href="#todos/<%= id %>" class="cursive <% if (status === 'complete') print('complete') %>"><%= _.escape(description) %></a>
+    <a href="#todos/<%= id %>/edit" class="cursive <% if (status === 'complete') print('complete') %>"><%= _.escape(description) %></a>
     <a href="#" data-del-id="<%= id %>" class="btn btn-danger btn-sm pull-right">
       <span class="glyphicon glyphicon-remove"></span>
     </a>
@@ -64,6 +66,17 @@
     </a>
   </script>
 
+  <script id="edit-form" type="text/x-uderscore-template">
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input name="status" type="checkbox" <% if (status === 'complete') print('checked') %>>
+      </span>
+      <input name="description" value="<%= description %>" type="text" class="form-control cursive">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-success">Save</button>
+      </span>
+    </div>
+  </script>
 
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>

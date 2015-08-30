@@ -54,7 +54,9 @@ var TodoView = Backbone.View.extend({
     this.$el.effect('highlight');
   },
   onModelRemove: function () {
-    this.$el.slideUp();
+    this.$el.slideUp(function() {
+      this.remove();
+    });
   },
 
 
@@ -93,10 +95,10 @@ var TodoListView = Backbone.View.extend({
   }
 })
 
-var FormView = Backbone.View.extend({
+var NewItemFormView = Backbone.View.extend({
   el: 'form',
   events: {
-    submit: 'submitHandler'
+    submit: 'onSubmit'
   },
 
   initialize: function () {
@@ -105,7 +107,7 @@ var FormView = Backbone.View.extend({
   onNewItemSave: function (savedItem) {
     this.model.add(savedItem);
   },
-  submitHandler: function (event) {
+  onSubmit: function (event) {
     event.preventDefault();
 
     var newTodoItem = new TodoItem({
@@ -118,11 +120,40 @@ var FormView = Backbone.View.extend({
   }
 });
 
+var EditFormView = Backbone.View.extend({
+  tagName: 'form',
+  template: _.template( $('#edit-form').html() ),
+  events: {
+    submit: 'onSubmit'
+  },
+  onSubmit: function (event) {
+    event.preventDefault();
+    console.log('submit edited');
+
+    this.model.set({
+      description: this.$('input[name=description]').val(),
+      status: this.$('input[name=status]').prop('checked') ? 'complete' : 'incomplete'
+    });
+
+    this.model.save().done(function () {
+      this.$el.slideUp(function() {
+        this.remove();
+        window.TodoApp.navigate('/');
+      });
+    }.bind(this));
+  },
+  render: function() {
+    this.$el.html(this.template(this.model.attributes));
+    return this;
+  }
+});
+
 // App
 var TodoRouter = Backbone.Router.extend({
   routes: {
     '': 'index',
     'todos/:id(/)': 'show',
+    'todos/:id/edit': 'edit',
     '*path': 'notFound'
   },
   initialize: function () {
@@ -130,7 +161,7 @@ var TodoRouter = Backbone.Router.extend({
     this.todosView = new TodoListView({collection: this.todoList});
     $('#todos').html(this.todosView.render().el);
 
-    new FormView({model: this.todoList});
+    new NewItemFormView({model: this.todoList});
   },
   index: function () {
     console.log('index');
@@ -139,12 +170,19 @@ var TodoRouter = Backbone.Router.extend({
   show: function (id) {
     console.log('show: ', id);
   },
+  edit: function (id) {
+    console.log('edit route: ', id);
+    var editForm = new EditFormView({ model: this.todoList.get(id) });
+    var html = editForm.render().el;
+    console.log(html);
+    $('div.panel-footer').html(html);
+  },
   notFound: function () {
     console.log('404 Nothing here');
   }
 })
 
-var TodoApp = new TodoRouter();
+window.TodoApp = new TodoRouter();
 Backbone.history.start({pushState: false});
 
 })(_, jQuery, Backbone);
