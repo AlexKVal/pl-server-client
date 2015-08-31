@@ -1,4 +1,4 @@
-(function(_, $, Backbone) {
+$(function() {
 
 var TodoItem = Backbone.Model.extend({
   urlRoot: '/todos',
@@ -61,13 +61,8 @@ var TodoView = Backbone.View.extend({
 
 
   render: function() {
-    if (!this.model.isComplete()) {
-      this.$el.addClass('list-group-item-warning')
-    } else {
-      this.$el.removeClass('list-group-item-warning')
-    }
+    this.$el.toggleClass('list-group-item-warning', this.model.isComplete());
 
-    // this.$el.data('id', this.model.id);
     this.$el.attr("data-id", this.model.id);
 
     this.$el.html(this.template(this.model.attributes))
@@ -115,7 +110,7 @@ var NewItemFormView = Backbone.View.extend({
 
     var newTodoItem = new TodoItem({
       description: this.$('input[name=description]').val(),
-      status: this.$('input[name=status]').prop('checked') ? 'complete' : 'incomplete'
+      status: this.$('input[name=status]')[0].checked ? 'complete' : 'incomplete'
     });
     newTodoItem.save().done(this.onNewItemSave);
 
@@ -136,7 +131,7 @@ var EditFormView = Backbone.View.extend({
 
     var newData = {
       description: this.$('input[name=description]').val(),
-      status: this.$('input[name=status]').prop('checked') ? 'complete' : 'incomplete'
+      status: this.$('input[name=status]')[0].checked ? 'complete' : 'incomplete'
     };
     console.log('newData: ', newData);
 
@@ -200,4 +195,4 @@ var TodoRouter = Backbone.Router.extend({
 window.TodoApp = new TodoRouter();
 Backbone.history.start({pushState: false});
 
-})(_, jQuery, Backbone);
+});

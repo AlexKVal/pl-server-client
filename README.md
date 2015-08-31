@@ -1,12 +1,15 @@
 # playground
 
 TODO:
-- migrate to Mustache templates
 - migrate to the `var App = {}` structure with namespacing
+- remove model if edit field is empty
+- migrate to Mustache templates
+- rewrite editing logic with CSS help
+
+Maybe:
 - use bootstrap data with page sended
 - add localStorage (write custom Model.sync)
 - use http://documentup.com/jeromegn/backbone.localStorage
-- then compare with http://localtodos.com/
 
 - Express
   - Morgan
