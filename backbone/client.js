@@ -1,28 +1,26 @@
-$(function() {
+var App = {
+  Models: {},
+  Collections: {},
+  Views: {}
+}
 
-var TodoItem = Backbone.Model.extend({
+App.Models.TodoItem = Backbone.Model.extend({
   urlRoot: '/todos',
   isComplete: function () {
     return this.get('status') === 'complete';
   },
   toggleStatus: function () {
-    if (this.get('status') === 'incomplete') {
-      this.set({status: 'complete'})
-    } else {
-      this.set({status: 'incomplete'})
-    }
-
-    console.log('save model:', this.attributes);
+    this.set({status: this.isComplete() ? 'incomplete' : 'complete'})
     this.save();
   }
 });
 
-var TodoList = Backbone.Collection.extend({
-  model: TodoItem,
+App.Collections.TodoList = Backbone.Collection.extend({
+  model: App.Models.TodoItem,
   url: '/todos'
 });
 
-var TodoView = Backbone.View.extend({
+App.Views.TodoView = Backbone.View.extend({
   tagName: 'li',
   className: 'list-group-item',
   template: _.template( $('#todo-item-template').html() ),
@@ -70,7 +68,7 @@ var TodoView = Backbone.View.extend({
   }
 });
 
-var TodoListView = Backbone.View.extend({
+App.Views.TodoListView = Backbone.View.extend({
   initialize: function () {
     this.collection.on('add', this.addItemSlideDown, this)
   },
@@ -78,7 +76,7 @@ var TodoListView = Backbone.View.extend({
     this.addItem(todoItem).slideDown();
   },
   addItem: function (todoItem) {
-    var todoView = new TodoView({model: todoItem})
+    var todoView = new App.Views.TodoView({model: todoItem})
     var newEl = todoView.render().el;
     var $newEl = $(newEl).hide();
     this.$el.prepend(newEl);
@@ -93,7 +91,7 @@ var TodoListView = Backbone.View.extend({
   }
 })
 
-var NewItemFormView = Backbone.View.extend({
+App.Views.NewItemFormView = Backbone.View.extend({
   el: 'form',
   events: {
     submit: 'onSubmit'
@@ -108,7 +106,7 @@ var NewItemFormView = Backbone.View.extend({
   onSubmit: function (event) {
     event.preventDefault();
 
-    var newTodoItem = new TodoItem({
+    var newTodoItem = new App.Models.TodoItem({
       description: this.$('input[name=description]').val(),
       status: this.$('input[name=status]')[0].checked ? 'complete' : 'incomplete'
     });
@@ -118,7 +116,7 @@ var NewItemFormView = Backbone.View.extend({
   }
 });
 
-var EditFormView = Backbone.View.extend({
+App.Views.EditFormView = Backbone.View.extend({
   template: _.template( $('#edit-form').html() ),
   events: {
     submit: 'onSubmit'
@@ -139,7 +137,7 @@ var EditFormView = Backbone.View.extend({
 
     this.model.save(newData, {
       success: function () {
-        window.TodoApp.navigate('/', {trigger: true});
+        App.router.navigate('/', {trigger: true});
       }
     });
   },
@@ -154,8 +152,7 @@ var EditFormView = Backbone.View.extend({
   }
 });
 
-// App
-var TodoRouter = Backbone.Router.extend({
+App.TodoRouter = Backbone.Router.extend({
   routes: {
     '': 'index',
     'todos/:id(/)': 'show',
@@ -163,11 +160,11 @@ var TodoRouter = Backbone.Router.extend({
     '*path': 'notFound'
   },
   initialize: function () {
-    this.todoList = new TodoList();
-    this.todosView = new TodoListView({collection: this.todoList});
+    this.todoList = new App.Collections.TodoList();
+    this.todosView = new App.Views.TodoListView({collection: this.todoList});
     $('#todos').html(this.todosView.render().el);
 
-    new NewItemFormView({model: this.todoList});
+    new App.Views.NewItemFormView({model: this.todoList});
   },
   index: function () {
     console.log('index');
@@ -182,7 +179,7 @@ var TodoRouter = Backbone.Router.extend({
     var model = this.todoList.get(id);
     console.log('edit model: ', model.attributes);
 
-    new EditFormView({
+    new App.Views.EditFormView({
       el: $('li[data-id=' + id + ']'),
       model: model
     }).render();
@@ -190,9 +187,9 @@ var TodoRouter = Backbone.Router.extend({
   notFound: function () {
     console.log('404 Nothing here');
   }
-})
+});
 
-window.TodoApp = new TodoRouter();
-Backbone.history.start({pushState: false});
-
+$(function() {
+  App.router = new App.TodoRouter();
+  Backbone.history.start({pushState: false});
 });
