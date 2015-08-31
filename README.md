@@ -3,10 +3,11 @@
 TODO:
 - ~~migrate to the `var App = {}` structure with namespacing~~
 - ~~remove model if edit field is empty~~
-- migrate to Mustache templates
-- rewrite editing logic with CSS help
+- ~~rewrite editing logic with CSS help~~
+- make click on LI switches to edit mode
 
 Maybe:
+- migrate to Mustache templates
 - use bootstrap data with page sended
 - add localStorage (write custom Model.sync)
 - use http://documentup.com/jeromegn/backbone.localStorage

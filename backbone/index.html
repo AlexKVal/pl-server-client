@@ -27,6 +27,16 @@
       color: #bbb;
       text-decoration: line-through;
     }
+
+    .edit {
+      display: none;
+    }
+    .editing .view {
+      display: none;
+    }
+    .editing .edit {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -57,9 +67,9 @@
   </div>
 
   <script id="todo-item-template" type="text/x-uderscore-template">
-  <div class="list-item">
+  <div class="view">
     <span class="badge pull-left"><%= id %></span>&nbsp;&nbsp;
-    <a href="#todos/<%= id %>/edit" class="cursive <% if (status === 'complete') print('complete') %>"><%- description %></a>
+    <a href="#todos/<%= id %>/edit" class="description cursive <% if (status === 'complete') print('complete') %>"><%- description %></a>
     <a href="#" data-del-id="<%= id %>" class="btn btn-danger btn-sm pull-right">
       <span class="glyphicon glyphicon-remove"></span>
     </a>
@@ -67,20 +77,7 @@
       <span class="glyphicon glyphicon-ok"></span>
     </a>
   </div>
-  </script>
-
-  <script id="edit-form" type="text/x-uderscore-template">
-  <form>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <input name="status" type="checkbox" <% if (status === 'complete') print('checked') %>>
-      </span>
-      <input name="description" value="<%- description %>" type="text" class="form-control cursive">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-success">Save</button>
-      </span>
-    </div>
-  </form>
+  <input value="<%- description %>" type="text" class="edit form-control cursive">
   </script>
 
   <!-- Scripts -->

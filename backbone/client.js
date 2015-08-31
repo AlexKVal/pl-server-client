@@ -27,7 +27,9 @@ App.Views.TodoView = Backbone.View.extend({
 
   events: {
     'click a[data-done-id]': 'doneHandler',
-    'click a[data-del-id]': 'removeHandler'
+    'click a[data-del-id]': 'removeHandler',
+    'click a.description': 'editHandler',
+    'keyup .edit': 'onKeyUp'
   },
 
   initialize: function () {
@@ -45,6 +47,16 @@ App.Views.TodoView = Backbone.View.extend({
     this.$el.effect('highlight');
     this.model.destroy({wait: true});
   },
+  editHandler: function (event) {
+    event.preventDefault();
+    this.switchIntoEditingMode();
+  },
+  onKeyUp: function(e) {
+    // end editing on Enter
+    if (e.keyCode === 13) this.endEditingMode();
+    // cancel editing via 'Esc'
+    if (e.keyCode == 27) this.$el.removeClass('editing');
+  },
 
   // Model events
   onModelChanged: function () {
@@ -57,13 +69,29 @@ App.Views.TodoView = Backbone.View.extend({
     });
   },
 
+  switchIntoEditingMode: function () {
+    this.$el.toggleClass('editing');
+    // always reset for Esc handling
+    this.input.val(this.model.get('description'));
+    this.input.focus();
+  },
+  endEditingMode: function () {
+    this.$el.removeClass('editing');
+    // check for empty model and save
+    var description = this.input.val();
+    if (!description) {
+      this.model.destroy();
+    } else {
+      this.model.save({description: description});
+    }
+  },
 
   render: function() {
     this.$el.toggleClass('list-group-item-warning', !this.model.isComplete());
 
-    this.$el.attr("data-id", this.model.id);
-
     this.$el.html(this.template(this.model.attributes))
+    this.input = this.$('.edit');
+
     return this
   }
 });
@@ -116,51 +144,10 @@ App.Views.NewItemFormView = Backbone.View.extend({
   }
 });
 
-App.Views.EditFormView = Backbone.View.extend({
-  template: _.template( $('#edit-form').html() ),
-  events: {
-    submit: 'onSubmit'
-  },
-  onSubmit: function (event) {
-    event.preventDefault();
-    console.log('submit edited');
-
-    console.log('edit form: this ', this);
-
-    var newData = {
-      description: this.$('input[name=description]').val(),
-      status: this.$('input[name=status]')[0].checked ? 'complete' : 'incomplete'
-    };
-    console.log('newData: ', newData);
-
-    if (!newData.description) {
-      this.model.destroy().done(function () {
-        App.router.navigate('/', {trigger: true});
-      });
-    } else {
-      this.$el.html( this.savedListItem );
-
-      this.model.save(newData).done(function () {
-        App.router.navigate('/', {trigger: true});
-      });
-    }
-  },
-  render: function() {
-    this.savedListItem = this.$('.list-item').detach();
-    console.log('render edit form: model ', this.model.attributes);
-    var editForm = this.template(this.model.attributes);
-    this.$el.html( editForm );
-    this.$('input[name=description]').focus();
-
-    return this;
-  }
-});
-
 App.TodoRouter = Backbone.Router.extend({
   routes: {
     '': 'index',
     'todos/:id(/)': 'show',
-    'todos/:id/edit': 'edit',
     '*path': 'notFound'
   },
   initialize: function () {
@@ -176,17 +163,6 @@ App.TodoRouter = Backbone.Router.extend({
   },
   show: function (id) {
     console.log('show: ', id);
-  },
-  edit: function (id) {
-    console.log('edit route: ', id);
-
-    var model = this.todoList.get(id);
-    console.log('edit model: ', model.attributes);
-
-    new App.Views.EditFormView({
-      el: $('li[data-id=' + id + ']'),
-      model: model
-    }).render();
   },
   notFound: function () {
     console.log('404 Nothing here');
