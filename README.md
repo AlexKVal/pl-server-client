@@ -7,7 +7,7 @@ TODO:
 - make click on LI switches to edit mode
 
 Maybe:
-- use package.json for `npm i` and `npm start`
+- ~~use package.json for `npm i` and `npm start`~~
 - migrate to Mustache templates
 - use bootstrap data with page sended
 - add localStorage (write custom Model.sync)
@@ -15,16 +15,20 @@ Maybe:
 
 - Express
   - Morgan
+  - routes
 - jQuery
   - Mustache
 - Backbone
+  - Undescore templates
+  - routes
 
 ```
-> npm i express nodemon morgan body-parser lodash
-> nodemon --watch server.js --watch routes/todos.js server.js
+> git clone && cd
+> npm install
+> npm start
 ```
-- open http://localhost:3000/js/
-- open http://localhost:3000/b/
+- `npm run jquery` opens `http://localhost:3000/jq/`
+- `npm run backbone` opens `http://localhost:3000/b/`
 
 Use `HTTPie` (`brew install httpie`) for REST API testing.
 ```
