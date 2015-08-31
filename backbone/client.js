@@ -89,7 +89,7 @@ App.Views.TodoView = Backbone.View.extend({
   render: function() {
     this.$el.toggleClass('list-group-item-warning', !this.model.isComplete());
 
-    this.$el.html(this.template(this.model.attributes))
+    this.$el.html( this.template(this.model.attributes) );
     this.input = this.$('.edit');
 
     return this
@@ -97,25 +97,14 @@ App.Views.TodoView = Backbone.View.extend({
 });
 
 App.Views.TodoListView = Backbone.View.extend({
+  el: '#todos',
   initialize: function () {
-    this.collection.on('add', this.addItemSlideDown, this)
-  },
-  addItemSlideDown: function (todoItem) {
-    this.addItem(todoItem).slideDown();
+    this.collection.on('add', this.addItem, this);
+    this.$el.empty(); // remove 'loading...'
   },
   addItem: function (todoItem) {
     var todoView = new App.Views.TodoView({model: todoItem})
-    var newEl = todoView.render().el;
-    var $newEl = $(newEl).hide();
-    this.$el.prepend(newEl);
-    return $newEl;
-  },
-  addAll: function () {
-    this.collection.forEach(this.addItem, this);
-  },
-  render: function () {
-    this.addAll();
-    return this;
+    $(todoView.render().el).hide().prependTo(this.$el).slideDown();
   }
 })
 
@@ -147,25 +136,19 @@ App.Views.NewItemFormView = Backbone.View.extend({
 App.TodoRouter = Backbone.Router.extend({
   routes: {
     '': 'index',
-    'todos/:id(/)': 'show',
     '*path': 'notFound'
   },
   initialize: function () {
     this.todoList = new App.Collections.TodoList();
-    this.todosView = new App.Views.TodoListView({collection: this.todoList});
-    $('#todos').html(this.todosView.render().el);
-
+    new App.Views.TodoListView({collection: this.todoList});
     new App.Views.NewItemFormView({model: this.todoList});
   },
   index: function () {
     console.log('index');
     this.todoList.fetch();
   },
-  show: function (id) {
-    console.log('show: ', id);
-  },
   notFound: function () {
-    console.log('404 Nothing here');
+    console.log('404 Nothing is here');
   }
 });
 
