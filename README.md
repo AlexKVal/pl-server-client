@@ -2,7 +2,7 @@
 
 TODO:
 - ~~migrate to the `var App = {}` structure with namespacing~~
-- remove model if edit field is empty
+- ~~remove model if edit field is empty~~
 - migrate to Mustache templates
 - rewrite editing logic with CSS help
 

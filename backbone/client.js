@@ -59,7 +59,7 @@ App.Views.TodoView = Backbone.View.extend({
 
 
   render: function() {
-    this.$el.toggleClass('list-group-item-warning', this.model.isComplete());
+    this.$el.toggleClass('list-group-item-warning', !this.model.isComplete());
 
     this.$el.attr("data-id", this.model.id);
 
@@ -133,13 +133,17 @@ App.Views.EditFormView = Backbone.View.extend({
     };
     console.log('newData: ', newData);
 
-    this.$el.html( this.savedListItem );
-
-    this.model.save(newData, {
-      success: function () {
+    if (!newData.description) {
+      this.model.destroy().done(function () {
         App.router.navigate('/', {trigger: true});
-      }
-    });
+      });
+    } else {
+      this.$el.html( this.savedListItem );
+
+      this.model.save(newData).done(function () {
+        App.router.navigate('/', {trigger: true});
+      });
+    }
   },
   render: function() {
     this.savedListItem = this.$('.list-item').detach();
