@@ -8,7 +8,7 @@ TODO:
 
 Maybe:
 - ~~use package.json for `npm i` and `npm start`~~
-- migrate to Mustache templates
+- ~~migrate to Mustache templates~~
 - use bootstrap data with page sended
 - add localStorage (write custom Model.sync)
 - use http://documentup.com/jeromegn/backbone.localStorage

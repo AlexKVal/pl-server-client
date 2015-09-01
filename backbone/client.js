@@ -23,7 +23,7 @@ App.Collections.TodoList = Backbone.Collection.extend({
 App.Views.TodoView = Backbone.View.extend({
   tagName: 'li',
   className: 'list-group-item',
-  template: _.template( $('#todo-item-template').html() ),
+  template: $('#todo-item-template').html(),
 
   events: {
     'click a[data-done-id]': 'doneHandler',
@@ -96,7 +96,8 @@ App.Views.TodoView = Backbone.View.extend({
   render: function() {
     this.$el.toggleClass('list-group-item-warning', !this.model.isComplete());
 
-    this.$el.html( this.template(this.model.attributes) );
+    var view = $.extend({done: this.model.isComplete()}, this.model.attributes);
+    this.$el.html( Mustache.render(this.template, view) );
     this.input = this.$('.edit');
 
     return this

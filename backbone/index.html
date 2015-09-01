@@ -63,18 +63,18 @@
     </div>
   </div>
 
-  <script id="todo-item-template" type="text/x-uderscore-template">
+  <script id="todo-item-template" type="text/template">
   <div class="view">
-    <span class="badge pull-left"><%= id %></span>&nbsp;&nbsp;
-    <span class="description cursive <% if (status === 'complete') print('complete') %>"><%- description %></span>
-    <a href="#" data-del-id="<%= id %>" class="btn btn-danger btn-sm pull-right">
+    <span class="badge pull-left">{{id}}</span>&nbsp;&nbsp;
+    <span class="description cursive {{#done}}complete{{/done}}">{{description}}</span>
+    <a href="#" data-del-id="{{id}}" class="btn btn-danger btn-sm pull-right">
       <span class="glyphicon glyphicon-remove"></span>
     </a>
-    <a href="#" data-done-id="<%= id %>" class="btn btn-success btn-sm pull-right">
+    <a href="#" data-done-id="{{id}}" class="btn btn-success btn-sm pull-right">
       <span class="glyphicon glyphicon-ok"></span>
     </a>
   </div>
-  <input value="<%- description %>" type="text" class="edit form-control cursive" autocomplete="off">
+  <input value="{{description}}" type="text" class="edit form-control cursive" autocomplete="off">
   </script>
 
   <!-- Scripts -->
@@ -84,6 +84,7 @@
   <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.2/backbone-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.1.3/mustache.min.js"></script>
 
   <script src="client.js"></script>
 </body>
