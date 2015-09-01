@@ -28,7 +28,8 @@ App.Views.TodoView = Backbone.View.extend({
   events: {
     'click a[data-done-id]': 'doneHandler',
     'click a[data-del-id]': 'removeHandler',
-    'click a.description': 'editHandler',
+    'click div.view': 'editHandler',
+    'blur .edit': 'cancelEditingMode',
     'keyup .edit': 'onKeyUp'
   },
 
@@ -40,22 +41,25 @@ App.Views.TodoView = Backbone.View.extend({
   // DOM events
   doneHandler: function (event) {
     event.preventDefault();
+    event.stopPropagation();
+
     this.model.toggleStatus();
   },
   removeHandler: function (event) {
     event.preventDefault();
+    event.stopPropagation();
+
     this.$el.effect('highlight');
     this.model.destroy({wait: true});
   },
   editHandler: function (event) {
-    event.preventDefault();
     this.switchIntoEditingMode();
   },
   onKeyUp: function(e) {
     // end editing on Enter
     if (e.keyCode === 13) this.endEditingMode();
     // cancel editing via 'Esc'
-    if (e.keyCode == 27) this.$el.removeClass('editing');
+    if (e.keyCode === 27) this.cancelEditingMode();
   },
 
   // Model events
@@ -74,6 +78,9 @@ App.Views.TodoView = Backbone.View.extend({
     // always reset for Esc handling
     this.input.val(this.model.get('description'));
     this.input.focus();
+  },
+  cancelEditingMode: function () {
+    this.$el.removeClass('editing');
   },
   endEditingMode: function () {
     this.$el.removeClass('editing');

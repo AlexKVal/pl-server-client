@@ -20,9 +20,6 @@
     .cursive {
       font-size: 22px;
     }
-    .cursive:hover {
-      text-decoration: none;
-    }
     .complete {
       color: #bbb;
       text-decoration: line-through;
@@ -69,7 +66,7 @@
   <script id="todo-item-template" type="text/x-uderscore-template">
   <div class="view">
     <span class="badge pull-left"><%= id %></span>&nbsp;&nbsp;
-    <a href="#todos/<%= id %>/edit" class="description cursive <% if (status === 'complete') print('complete') %>"><%- description %></a>
+    <span class="description cursive <% if (status === 'complete') print('complete') %>"><%- description %></span>
     <a href="#" data-del-id="<%= id %>" class="btn btn-danger btn-sm pull-right">
       <span class="glyphicon glyphicon-remove"></span>
     </a>

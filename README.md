@@ -4,7 +4,7 @@ TODO:
 - ~~migrate to the `var App = {}` structure with namespacing~~
 - ~~remove model if edit field is empty~~
 - ~~rewrite editing logic with CSS help~~
-- make click on LI switches to edit mode
+- ~~make click on LI switches to edit mode~~
 
 Maybe:
 - ~~use package.json for `npm i` and `npm start`~~
