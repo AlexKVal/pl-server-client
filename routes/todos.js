@@ -1,15 +1,11 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var _ = require('lodash');
+var todos = require('../bbApp/data');
 
 var router = express.Router();
 
-var todos = [
-  {id: 1, description: 'Pick up milk.', status: 'incomplete'},
-  {id: 2, description: 'Get a car wash', status: 'complete'},
-  {id: 3, description: 'Learn Backbone.', status: 'incomplete'}
-];
-var nextId = 4;
+var nextId = todos.length + 1;
 
 var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({extended: false});
