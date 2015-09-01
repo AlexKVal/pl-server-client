@@ -45,6 +45,8 @@ function parsePostedData(req, res, next) {
   next();
 }
 
+router.use(pause(1000));
+
 router.route('/')
   .get(function (req, res) {
     if (req.query.limit >= 0) {
@@ -53,7 +55,7 @@ router.route('/')
       res.json(todos);
     }
   })
-  .post(jsonParser, urlencodedParser, parsePostedData, pause(1000), function (req, res) {
+  .post(jsonParser, urlencodedParser, parsePostedData, function (req, res) {
     var postedData = req.body;
 
     var newTodo = {

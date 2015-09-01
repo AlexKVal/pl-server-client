@@ -20,7 +20,7 @@ Maybe:
 - jQuery
   - Mustache
 - Backbone
-  - Undescore templates
+  - Mustache (was Underscore)
   - routes
 
 ```

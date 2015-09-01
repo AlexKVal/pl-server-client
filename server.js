@@ -1,16 +1,18 @@
 var express = require('express');
 var morgan = require('morgan')
 var todosRoutes = require('./routes/todos');
-
+var bbApp = require('./routes/bbApp')
 var app = express();
 
-app.use(morgan('dev'));
 
-app.use('/b', express.static('backbone'));
+app.use(morgan('dev'));
+app.set('view engine', 'jade');
+
 app.use('/jq', express.static('jq'));
 
 app.use('/todos', todosRoutes);
 
+app.use('/b', bbApp);
 
 
 function statusNameToLowerCase(req, res, next) {
