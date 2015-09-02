@@ -1,5 +1,10 @@
 var express = require('express');
+var _ = require('lodash');
 var todos = require('../bbApp/data');
+
+var todos = _.filter(todos, function (item) {
+  return item.status === 'incomplete';
+})
 
 var router = express.Router();
 

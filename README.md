@@ -12,7 +12,7 @@ TODO:
 Maybe:
 - ~~use package.json for `npm i` and `npm start`~~
 - ~~migrate to Mustache templates~~
-- use preloaded (with index page) data
+- ~~use preloaded (with index page) data (preloads only `incomplete`)~~
 - add localStorage (write custom Model.sync)
 - use http://documentup.com/jeromegn/backbone.localStorage
 

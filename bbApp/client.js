@@ -108,11 +108,16 @@ App.Views.TodoListView = Backbone.View.extend({
   el: '#todos',
   initialize: function () {
     this.collection.on('add', this.addItem, this);
+    this.collection.on('reset', this.addAll, this);
     this.$el.empty(); // remove 'loading...'
   },
   addItem: function (todoItem) {
-    var todoView = new App.Views.TodoView({model: todoItem})
+    var todoView = new App.Views.TodoView({model: todoItem});
     $(todoView.render().el).hide().prependTo(this.$el).slideDown();
+  },
+  addAll: function (collection) {
+    console.log('reset: ', this.collection);
+    this.collection.forEach(this.addItem, this);
   }
 })
 
@@ -149,6 +154,10 @@ App.TodoRouter = Backbone.Router.extend({
   initialize: function () {
     this.todoList = new App.Collections.TodoList();
     new App.Views.TodoListView({collection: this.todoList});
+
+    var todosPreloaded = JSON.parse( $('#todos-preloaded').html() );
+    this.todoList.reset(todosPreloaded);
+
     new App.Views.NewItemFormView({model: this.todoList});
   },
   index: function () {
