@@ -31,6 +31,17 @@ html
       .editing .edit {
         display: block;
       }
+
+      .progress {
+        display: none;
+      }
+      .loading .view {
+        display: none;
+      }
+      .loading .progress {
+        display: block;
+      }
+
   body
     .main.container-fluid
       .row
@@ -46,7 +57,7 @@ html
                 // save button
                 span.input-group-btn
                   button.btn.btn-success(type='submit') Save
-            .progress.hidden
+            .progress
               .progress-bar.progress-bar-striped.active(style='width: 100%')
           ul#todos.list-group Loading...
     script#todo-item-template(type='text/template').
@@ -61,6 +72,11 @@ html
       </a>
       </div>
       <input value="{{description}}" type="text" class="edit form-control cursive" autocomplete="off">
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped active" style="width: 100%">
+          Syncing...
+        </div>
+      </div>
     script#todos-preloaded(type='text/x-data')!= todos
     // Scripts
     script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js')

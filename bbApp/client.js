@@ -11,7 +11,7 @@ App.Models.TodoItem = Backbone.Model.extend({
   },
   toggleStatus: function () {
     this.set({status: this.isComplete() ? 'incomplete' : 'complete'})
-    this.save();
+    this.save({wait: true});
   }
 });
 
@@ -34,7 +34,7 @@ App.Views.TodoView = Backbone.View.extend({
   },
 
   initialize: function () {
-    this.listenTo(this.model, 'change', this.onModelChanged);
+    this.listenTo(this.model, 'sync', this.onModelSync);
     this.listenTo(this.model, 'destroy', this.onModelRemove);
   },
 
@@ -43,13 +43,14 @@ App.Views.TodoView = Backbone.View.extend({
     event.preventDefault();
     event.stopPropagation();
 
+    this.$el.addClass('loading');
     this.model.toggleStatus();
   },
   removeHandler: function (event) {
     event.preventDefault();
     event.stopPropagation();
 
-    this.$el.effect('highlight');
+    this.$el.addClass('loading');
     this.model.destroy({wait: true});
   },
   editHandler: function (event) {
@@ -63,9 +64,9 @@ App.Views.TodoView = Backbone.View.extend({
   },
 
   // Model events
-  onModelChanged: function () {
-    console.log('onModelChanged');
+  onModelSync: function () {
     this.render();
+    this.$el.removeClass('loading');
   },
   onModelRemove: function () {
     this.$el.slideUp(function() {
@@ -86,10 +87,12 @@ App.Views.TodoView = Backbone.View.extend({
     this.$el.removeClass('editing');
     // check for empty model and save
     var description = this.input.val();
+
+    this.$el.addClass('loading');
     if (!description) {
-      this.model.destroy();
+      this.model.destroy({wait: true});
     } else {
-      this.model.save({description: description});
+      this.model.save({description: description}, {wait: true});
     }
   },
 
@@ -134,7 +137,7 @@ App.Views.NewItemFormView = Backbone.View.extend({
   },
   onNewItemSave: function (savedItem) {
     this.model.add(savedItem);
-    this.progressBar.addClass('hidden');
+    this.progressBar.hide();
   },
   onSubmit: function (event) {
     event.preventDefault();
@@ -144,7 +147,7 @@ App.Views.NewItemFormView = Backbone.View.extend({
       status: this.$('input[name=status]')[0].checked ? 'complete' : 'incomplete'
     });
 
-    this.progressBar.removeClass('hidden');
+    this.progressBar.show();
     newTodoItem.save().done(this.onNewItemSave);
 
     this.$el.trigger('reset');
