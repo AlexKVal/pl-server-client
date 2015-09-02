@@ -5,16 +5,15 @@ TODO:
 - ~~remove model if edit field is empty~~
 - ~~rewrite editing logic with CSS help~~
 - ~~make click on LI switches to edit mode~~
-- realise
-  beforeSend: function() { $('.confirmation').addClass('is-loading'); },
-  complete: function() { $('.confirmation').removeClass('is-loading'); }
+- ~~realise~~
+  ~~beforeSend: function() { $('.confirmation').addClass('is-loading'); },~~
+  ~~complete: function() { $('.confirmation').removeClass('is-loading'); }~~
 
 Maybe:
 - ~~use package.json for `npm i` and `npm start`~~
 - ~~migrate to Mustache templates~~
 - ~~use preloaded (with index page) data (preloads only `incomplete`)~~
-- add localStorage (write custom Model.sync)
-- use http://documentup.com/jeromegn/backbone.localStorage
+
 
 
 - Express

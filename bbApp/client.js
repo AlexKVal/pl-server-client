@@ -129,9 +129,12 @@ App.Views.NewItemFormView = Backbone.View.extend({
 
   initialize: function () {
     this.onNewItemSave = this.onNewItemSave.bind(this);
+    // this.progressBar = this.$el.parent().children('.progress');
+    this.progressBar = this.$el.next();
   },
   onNewItemSave: function (savedItem) {
     this.model.add(savedItem);
+    this.progressBar.addClass('hidden');
   },
   onSubmit: function (event) {
     event.preventDefault();
@@ -140,6 +143,8 @@ App.Views.NewItemFormView = Backbone.View.extend({
       description: this.$('input[name=description]').val(),
       status: this.$('input[name=status]')[0].checked ? 'complete' : 'incomplete'
     });
+
+    this.progressBar.removeClass('hidden');
     newTodoItem.save().done(this.onNewItemSave);
 
     this.$el.trigger('reset');
