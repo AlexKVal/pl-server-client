@@ -60,23 +60,8 @@ html
             .progress
               .progress-bar.progress-bar-striped.active(style='width: 100%')
           ul#todos.list-group Loading...
-    script#todo-item-template(type='text/template').
-      <div class="view">
-      <span class="badge pull-left">{{id}}</span>&nbsp;&nbsp;
-      <span class="description cursive {{#done}}complete{{/done}}">{{description}}</span>
-      <a href="#" data-del-id="{{id}}" class="btn btn-danger btn-sm pull-right">
-      <span class="glyphicon glyphicon-remove"></span>
-      </a>
-      <a href="#" data-done-id="{{id}}" class="btn btn-success btn-sm pull-right">
-      <span class="glyphicon glyphicon-ok"></span>
-      </a>
-      </div>
-      <input value="{{description}}" type="text" class="edit form-control cursive" autocomplete="off">
-      <div class="progress">
-        <div class="progress-bar progress-bar-striped active" style="width: 100%">
-          Syncing...
-        </div>
-      </div>
+    script#todo-item-template(type='text/template')
+      include ./includes/todo-item-template.jade
     script#todos-preloaded(type='text/x-data')!= todos
     // Scripts
     script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js')

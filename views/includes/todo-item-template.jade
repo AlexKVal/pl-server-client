@@ -1,0 +1,11 @@
+.view
+  span.badge.pull-left {{id}}
+  span.description.cursive(class='{{#done}}complete{{/done}}') {{description}}
+  a.btn.btn-danger.btn-sm.pull-right(href='#', data-del-id='{{id}}')
+    span.glyphicon.glyphicon-remove
+  a.btn.btn-success.btn-sm.pull-right(href='#', data-done-id='{{id}}')
+    span.glyphicon.glyphicon-ok
+input.edit.form-control.cursive(value='{{description}}', type='text', autocomplete='off')
+.progress
+  .progress-bar.progress-bar-striped.active(style='width: 100%')
+    | Syncing...
