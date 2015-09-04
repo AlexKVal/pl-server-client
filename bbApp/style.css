@@ -30,6 +30,7 @@
   display: block;
 }
 
+
 .progress {
   display: none;
 }
@@ -38,4 +39,17 @@
 }
 .loading .progress {
   display: block;
+}
+
+.sync-indicator {
+  margin-top: 2px;
+  margin-bottom: 0;
+}
+
+.incomplete,
+.done {
+  display: inline-block;
+}
+.done {
+  margin-left: 1rem;
 }

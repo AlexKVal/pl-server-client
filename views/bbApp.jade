@@ -15,18 +15,9 @@ html
       .row
         .panel.panel-info
           .panel-heading
-            form(id='#new-form', action='/todos', method='post')
-              .input-group
-                // status checkbox
-                span.input-group-addon
-                  input(name='status', type='checkbox')
-                // input
-                input.form-control.cursive(name='description', type='text', placeholder='Enter ToDo...', autofocus='', autocomplete='off')
-                // save button
-                span.input-group-btn
-                  button.btn.btn-success(type='submit') Save
-            .progress
-              .progress-bar.progress-bar-striped.active(style='width: 100%')
+            include ./includes/new-form.jade
+            include ./includes/summaries.jade
+
           ul#todos.list-group Loading...
 
     script#todo-item-template(type='text/template')

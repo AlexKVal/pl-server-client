@@ -17,7 +17,14 @@ App.Models.TodoItem = Backbone.Model.extend({
 
 App.Collections.TodoList = Backbone.Collection.extend({
   model: App.Models.TodoItem,
-  url: '/todos'
+  url: '/todos',
+
+  incompleteItems: function () {
+    return this.filter(function(item){ return item.get('status') === 'incomplete' });
+  },
+  completeItems: function () {
+    return this.filter(function(item){ return item.get('status') === 'complete' });
+  }
 });
 
 App.Views.TodoView = Backbone.View.extend({
@@ -154,6 +161,20 @@ App.Views.NewItemFormView = Backbone.View.extend({
   }
 });
 
+App.Views.Summaries = Backbone.View.extend({
+  el: '#summaries',
+  initialize: function () {
+    this.incomplete = this.$('.incomplete').find('.label-info');
+    this.complete = this.$('.done').find('.label-info');
+    this.listenTo(this.collection, 'all', this.render);
+    this.render();
+  },
+  render: function () {
+    this.incomplete.text(this.collection.incompleteItems().length)
+    this.complete.text(this.collection.completeItems().length)
+  }
+});
+
 App.TodoRouter = Backbone.Router.extend({
   routes: {
     '': 'index',
@@ -167,6 +188,7 @@ App.TodoRouter = Backbone.Router.extend({
     this.todoList.reset(todosPreloaded);
 
     new App.Views.NewItemFormView({model: this.todoList});
+    new App.Views.Summaries({collection: this.todoList});
   },
   index: function () {
     console.log('index');

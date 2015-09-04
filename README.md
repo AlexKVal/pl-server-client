@@ -8,9 +8,10 @@ TODO:
 - ~~realize~~
   ~~beforeSend: function() { $('.confirmation').addClass('is-loading'); },~~
   ~~complete: function() { $('.confirmation').removeClass('is-loading'); }~~
-- show summaries (under 'new' form)
-- mark all as done
-- remove all that are done
+- ~~show summaries (under 'new' form)~~
+- add button `mark all as done`
+- add button `remove all that are done`
+- make top form fixed and the list of items - scrolling
 
 Maybe:
 - ~~use package.json for `npm i` and `npm start`~~
