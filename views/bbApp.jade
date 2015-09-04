@@ -2,45 +2,13 @@ doctype html
 html
   head
     meta(charset='UTF-8')
+
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css')
     link(href='http://fonts.googleapis.com/css?family=Courgette', rel='stylesheet', type='text/css')
-    title Backbone
-    style.
-      .main {
-        max-width: 500px;
-      }
-      .cursive {
-        font-family: 'Courgette', cursive;
-        text-shadow: 4px 4px 4px #aaa;
-      }
-      #todos .badge,
-      .cursive {
-        font-size: 22px;
-      }
-      .complete {
-        color: #bbb;
-        text-decoration: line-through;
-      }
-      .edit {
-        display: none;
-      }
-      .editing .view {
-        display: none;
-      }
-      .editing .edit {
-        display: block;
-      }
+    link(href='/b/style.css', rel='stylesheet')
 
-      .progress {
-        display: none;
-      }
-      .loading .view {
-        display: none;
-      }
-      .loading .progress {
-        display: block;
-      }
+    title Backbone
 
   body
     .main.container-fluid
@@ -60,9 +28,12 @@ html
             .progress
               .progress-bar.progress-bar-striped.active(style='width: 100%')
           ul#todos.list-group Loading...
+
     script#todo-item-template(type='text/template')
       include ./includes/todo-item-template.jade
+
     script#todos-preloaded(type='text/x-data')!= todos
+
     // Scripts
     script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js')
     script(src='https://code.jquery.com/jquery-2.1.4.min.js')

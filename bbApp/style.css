@@ -1,0 +1,41 @@
+.main {
+  max-width: 500px;
+}
+
+.description {
+  margin-left: 1rem;
+}
+
+.cursive {
+  font-family: 'Courgette', cursive;
+  text-shadow: 4px 4px 4px #aaa;
+}
+.view .badge,
+.cursive {
+  font-size: 22px;
+}
+
+.complete {
+  color: #bbb;
+  text-decoration: line-through;
+}
+
+.edit {
+  display: none;
+}
+.editing .view {
+  display: none;
+}
+.editing .edit {
+  display: block;
+}
+
+.progress {
+  display: none;
+}
+.loading .view {
+  display: none;
+}
+.loading .progress {
+  display: block;
+}
