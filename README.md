@@ -5,15 +5,21 @@ TODO:
 - ~~remove model if edit field is empty~~
 - ~~rewrite editing logic with CSS help~~
 - ~~make click on LI switches to edit mode~~
-- ~~realise~~
+- ~~realize~~
   ~~beforeSend: function() { $('.confirmation').addClass('is-loading'); },~~
   ~~complete: function() { $('.confirmation').removeClass('is-loading'); }~~
+- show summaries (under 'new' form)
+- mark all as done
+- remove all that are done
 
 Maybe:
 - ~~use package.json for `npm i` and `npm start`~~
 - ~~migrate to Mustache templates~~
 - ~~use preloaded (with index page) data (preloads only `incomplete`)~~
-
+- realize with other style frameworks:
+  - https://fezvrasta.github.io/bootstrap-material-design/
+  - http://getskeleton.com/
+  - http://www.getmdl.io/
 
 
 - Express
