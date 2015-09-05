@@ -1,4 +1,5 @@
 .main {
+  min-width: 418px;
   max-width: 500px;
 }
 
@@ -30,7 +31,6 @@
   display: block;
 }
 
-
 .progress {
   display: none;
 }
@@ -50,5 +50,5 @@
 .done,
 .checkbox {
   display: inline-block;
-  margin-right: 1rem;
+  margin: 0 1rem 4px 0;
 }

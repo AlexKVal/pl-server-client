@@ -72,8 +72,9 @@ App.Views.TodoView = Backbone.View.extend({
 
   // Model events
   onModelSync: function () {
-    this.render();
     this.$el.removeClass('loading');
+    this.render();
+    this.$el.effect('highlight');
   },
   onModelRemove: function () {
     this.$el.slideUp(function() {
@@ -107,7 +108,7 @@ App.Views.TodoView = Backbone.View.extend({
     this.$el.toggleClass('list-group-item-warning', !this.model.isComplete());
 
     var view = $.extend({done: this.model.isComplete()}, this.model.attributes);
-    this.$el.html( Mustache.render(this.template, view) ).effect('highlight');
+    this.$el.html( Mustache.render(this.template, view) );
     this.input = this.$('.edit');
 
     return this
