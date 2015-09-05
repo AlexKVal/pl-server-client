@@ -107,7 +107,7 @@ App.Views.TodoView = Backbone.View.extend({
     this.$el.toggleClass('list-group-item-warning', !this.model.isComplete());
 
     var view = $.extend({done: this.model.isComplete()}, this.model.attributes);
-    this.$el.html( Mustache.render(this.template, view) );
+    this.$el.html( Mustache.render(this.template, view) ).effect('highlight');
     this.input = this.$('.edit');
 
     return this
