@@ -163,11 +163,22 @@ App.Views.NewItemFormView = Backbone.View.extend({
 
 App.Views.Summaries = Backbone.View.extend({
   el: '#summaries',
+  events: {
+    'click input[type=checkbox]': 'toggleAllDone'
+  },
   initialize: function () {
     this.incomplete = this.$('.incomplete').find('.label-info');
     this.complete = this.$('.done').find('.label-info');
+    this.allDone = this.$('input[type=checkbox]')[0];
     this.listenTo(this.collection, 'all', this.render);
     this.render();
+  },
+  toggleAllDone: function () {
+    var newStatus = this.allDone.checked ? 'complete' : 'incomplete';
+    console.log('done:', newStatus);
+    this.collection.forEach(function (item) {
+      item.save({status: newStatus});
+    })
   },
   render: function () {
     this.incomplete.text(this.collection.incompleteItems().length)

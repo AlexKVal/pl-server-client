@@ -47,9 +47,8 @@
 }
 
 .incomplete,
-.done {
+.done,
+.checkbox {
   display: inline-block;
-}
-.done {
-  margin-left: 1rem;
+  margin-right: 1rem;
 }
