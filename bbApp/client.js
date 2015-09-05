@@ -164,12 +164,14 @@ App.Views.NewItemFormView = Backbone.View.extend({
 App.Views.Summaries = Backbone.View.extend({
   el: '#summaries',
   events: {
-    'click input[type=checkbox]': 'toggleAllDone'
+    'click .toggle-all-done': 'toggleAllDone',
+    'click .remove-done': 'removeDone'
   },
   initialize: function () {
     this.incomplete = this.$('.incomplete').find('.label-info');
     this.complete = this.$('.done').find('.label-info');
-    this.allDone = this.$('input[type=checkbox]')[0];
+    this.allDone = this.$('.toggle-all-done')[0];
+    this.removeDone = this.$('.remove-done');
     this.listenTo(this.collection, 'all', this.render);
     this.render();
   },
@@ -180,9 +182,17 @@ App.Views.Summaries = Backbone.View.extend({
       item.save({status: newStatus});
     })
   },
+  removeDone: function () {
+    this.collection.completeItems().forEach(function (item) {
+      item.destroy();
+    })
+  },
   render: function () {
     this.incomplete.text(this.collection.incompleteItems().length)
-    this.complete.text(this.collection.completeItems().length)
+
+    var completeLength = this.collection.completeItems().length;
+    this.complete.text(completeLength)
+    this.removeDone.toggleClass('hidden', !completeLength);
   }
 });
 
