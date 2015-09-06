@@ -31,7 +31,44 @@ App.Collections.TodoList = Backbone.Collection.extend({
   }
 });
 
-App.Views.NewItemFormView = Marionette.ItemView.extend({
+App.Views.Summaries = Marionette.ItemView.extend({
+  el: '#summaries',
+  template: false,
+  ui: {
+    incomplete: '.incomplete > .label-info',
+    complete: '.done > .label-info',
+    allDone: '.toggle-all-done',
+    removeDone: '.remove-done'
+  },
+  events: {
+    'click @ui.allDone': 'toggleAllDone',
+    'click @ui.removeDone': 'removeDone'
+  },
+  collectionEvents: {
+    'all': 'render'
+  },
+  toggleAllDone: function () {
+    var newStatus = this.ui.allDone[0].checked ? 'complete' : 'incomplete';
+    console.log('done:', newStatus);
+    this.collection.forEach(function (item) {
+      item.save({status: newStatus});
+    })
+  },
+  removeDone: function () {
+    this.collection.completeItems().forEach(function (item) {
+      item.destroy();
+    })
+  },
+  onRender: function () {
+    this.ui.incomplete.text(this.collection.incompleteItems().length)
+
+    var completeLength = this.collection.completeItems().length;
+    this.ui.complete.text(completeLength)
+    this.ui.removeDone.toggleClass('hidden', !completeLength);
+  }
+});
+
+App.Views.NewItemForm = Marionette.ItemView.extend({
   el: 'form',
   template: false,
   ui: {
@@ -47,16 +84,17 @@ App.Views.NewItemFormView = Marionette.ItemView.extend({
   onSubmit: function (event) {
     event.preventDefault();
 
-    var newTodoItem = new App.Models.TodoItem({
+    this.progressBar.show();
+    this.collection.create({
       description: this.ui.description.val(),
       status: this.ui.status[0].checked ? 'complete' : 'incomplete'
+    },
+    {
+      wait: true,
+      success: _.bind(function() {
+        this.progressBar.hide();
+      }, this)
     });
-
-    this.progressBar.show();
-    newTodoItem.save({wait: true}).done(_.bind(function(savedItem) {
-      this.collection.add(savedItem);
-      this.progressBar.hide();
-    }, this));
     this.$el.trigger('reset');
   }
 });
@@ -70,7 +108,9 @@ App.on('start', function () {
   this.todoList.preloadFromHtml();
   this.todoList.fetch();
 
-  var newFormView = new App.Views.NewItemFormView({collection: this.todoList});
+  var summariesView = new App.Views.Summaries({collection: this.todoList});
+  summariesView.render();
+  var newFormView = new App.Views.NewItemForm({collection: this.todoList});
   newFormView.render();
 
   Backbone.history.start({pushState: false});
