@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var _ = require('lodash');
-var todos = require('../bbApp/data');
+var todos = require('../data/data');
 
 var router = express.Router();
 

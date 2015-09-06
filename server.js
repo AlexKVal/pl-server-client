@@ -1,16 +1,16 @@
 var express = require('express');
 var morgan = require('morgan')
-var todosRoutes = require('./routes/todos');
-var bbApp = require('./routes/bbApp')
+var todosAPI = require('./apps/todosAPI');
+var bbApp = require('./apps/bbApp')
 var app = express();
 
 
 app.use(morgan('dev'));
 app.set('view engine', 'jade');
 
-app.use('/jq', express.static('jq'));
+app.use('/jq', express.static('clients/jq'));
 
-app.use('/todos', todosRoutes);
+app.use('/todos', todosAPI);
 
 app.use('/b', bbApp);
 

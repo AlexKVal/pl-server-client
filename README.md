@@ -36,6 +36,7 @@ Use `HTTPie` (`brew install httpie`) for REST API testing.
 - ~~add button `mark all as done`~~
 - ~~add button `remove all that are done`~~
 - make top form fixed and the list of items - scrolling
+- create Marionette version of client
 
 Maybe:
 - ~~use package.json for `npm i` and `npm start`~~

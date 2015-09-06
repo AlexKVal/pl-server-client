@@ -13,7 +13,7 @@
   },
   "scripts": {
     "test": "exit 0;",
-    "start": "nodemon --watch server.js --watch routes --watch bbApp/data.js server.js",
+    "start": "nodemon --watch server.js --watch apps --watch data server.js",
     "backbone": "open http://localhost:3000/b/",
     "jquery": "open http://localhost:3000/jq/"
   },
