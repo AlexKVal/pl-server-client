@@ -24,6 +24,10 @@ App.Collections.TodoList = Backbone.Collection.extend({
   },
   completeItems: function () {
     return this.filter(function(item){ return item.get('status') === 'complete' });
+  },
+  preloadFromHtml: function () {
+    var todosPreloaded = JSON.parse( $('#todos-preloaded').html() );
+    this.reset(todosPreloaded);
   }
 });
 
@@ -206,8 +210,7 @@ App.TodoRouter = Backbone.Router.extend({
     this.todoList = new App.Collections.TodoList();
     new App.Views.TodoListView({collection: this.todoList});
 
-    var todosPreloaded = JSON.parse( $('#todos-preloaded').html() );
-    this.todoList.reset(todosPreloaded);
+    this.todoList.preloadFromHtml();
 
     new App.Views.NewItemFormView({model: this.todoList});
     new App.Views.Summaries({collection: this.todoList});

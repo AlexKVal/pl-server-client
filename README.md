@@ -42,7 +42,9 @@ Maybe:
 - ~~migrate to Mustache templates~~
 - ~~use preloaded (with index page) data (preloads only `incomplete`)~~
 - realize with other style frameworks:
+  - http://semantic-ui.com/
   - https://fezvrasta.github.io/bootstrap-material-design/
   - http://getskeleton.com/
   - http://www.getmdl.io/
 - add 'Canvas'
+- https://daneden.github.io/animate.css/
