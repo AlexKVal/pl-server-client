@@ -10,6 +10,7 @@
 - Backbone
   - Mustache (was Underscore)
   - routes
+- Marionette
 
 ```
 > git clone && cd
@@ -18,6 +19,7 @@
 ```
 - `npm run jquery` opens `http://localhost:3000/jq/`
 - `npm run backbone` opens `http://localhost:3000/b/`
+- `npm run marionette` opens `http://localhost:3000/m/`
 
 Use `HTTPie` (`brew install httpie`) for REST API testing.
 ```
