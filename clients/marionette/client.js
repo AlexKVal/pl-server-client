@@ -1,9 +1,14 @@
-var App = new Backbone.Marionette.Application();
+var App = {
+  Models: {},
+  Collections: {},
+  Views: {},
+  Layout: {}
+};
 
-App.Models = {};
-App.Collections = {};
-App.Views = {};
-App.Layout = {};
+Marionette.TemplateCache.prototype.compileTemplate = function (rawTemplate) {
+  Mustache.parse(rawTemplate);
+  return _.partial(Mustache.render, rawTemplate);
+};
 
 App.Layout.Root = Marionette.LayoutView.extend({
   el: '#app',
@@ -26,7 +31,9 @@ App.Models.TodoItem = Backbone.Model.extend({
 App.Collections.TodoList = Backbone.Collection.extend({
   model: App.Models.TodoItem,
   url: '/todos',
-
+  comparator: function(todo) {
+    return - todo.get('id'); // reverse order
+  },
   incompleteItems: function () {
     return this.filter(function(item){ return item.get('status') === 'incomplete' });
   },
@@ -107,8 +114,17 @@ App.Views.NewItemForm = Marionette.ItemView.extend({
   }
 });
 
+App.Views.TodoView = Marionette.ItemView.extend({
+  tagName: 'li',
+  className: 'list-group-item',
+  template: '#todo-item-template'
+});
 
-App.on('start', function () {
+App.Views.TodoListView = Marionette.CollectionView.extend({
+  childView: App.Views.TodoView
+});
+
+App.start = function() {
   this.todoList = new App.Collections.TodoList();
   this.todoList.preloadFromHtml();
 
@@ -120,10 +136,14 @@ App.on('start', function () {
 
   this.root = new App.Layout.Root();
 
+  var listItemsView = new App.Views.TodoListView({
+    collection: this.todoList
+  });
+  this.root.showChildView('todos', listItemsView);
 
   this.todoList.fetch();
 
   Backbone.history.start({pushState: false});
-});
+};
 
 App.start();
