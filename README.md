@@ -45,6 +45,7 @@ Use `HTTPie` (`brew install httpie`) for REST API testing.
   - add TodoListView
 - refactor to use `serializeData()` in Marionette client
 - when there are many items - All done - takes long time. Optimize.
+- template caching http://marionettejs.com/docs/v2.4.2/marionette.templatecache.html#override-template-compilation
 
 Maybe:
 - ~~use package.json for `npm i` and `npm start`~~

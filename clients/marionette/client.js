@@ -3,6 +3,14 @@ var App = new Backbone.Marionette.Application();
 App.Models = {};
 App.Collections = {};
 App.Views = {};
+App.Layout = {};
+
+App.Layout.Root = Marionette.LayoutView.extend({
+  el: '#app',
+  regions: {
+    todos: '#todos'
+  }
+});
 
 App.Models.TodoItem = Backbone.Model.extend({
   urlRoot: '/todos',
@@ -50,7 +58,7 @@ App.Views.Summaries = Marionette.ItemView.extend({
   toggleAllDone: function () {
     var newStatus = this.ui.allDone[0].checked ? 'complete' : 'incomplete';
     console.log('done:', newStatus);
-    this.collection.forEach(function (item) {
+    this.collection.each(function (item) {
       item.save({status: newStatus});
     })
   },
@@ -69,7 +77,7 @@ App.Views.Summaries = Marionette.ItemView.extend({
 });
 
 App.Views.NewItemForm = Marionette.ItemView.extend({
-  el: 'form',
+  el: '#new-form',
   template: false,
   ui: {
     description: 'input[name=description]',
@@ -102,16 +110,18 @@ App.Views.NewItemForm = Marionette.ItemView.extend({
 
 App.on('start', function () {
   this.todoList = new App.Collections.TodoList();
-
-  //
-
   this.todoList.preloadFromHtml();
-  this.todoList.fetch();
 
   var summariesView = new App.Views.Summaries({collection: this.todoList});
   summariesView.render();
+
   var newFormView = new App.Views.NewItemForm({collection: this.todoList});
   newFormView.render();
+
+  this.root = new App.Layout.Root();
+
+
+  this.todoList.fetch();
 
   Backbone.history.start({pushState: false});
 });
