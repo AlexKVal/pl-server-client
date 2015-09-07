@@ -37,15 +37,15 @@ Use `HTTPie` (`brew install httpie`) for REST API testing.
 - ~~show summaries (under 'new' form)~~
 - ~~add button `mark all as done`~~
 - ~~add button `remove all that are done`~~
-- make top form fixed and the list of items - scrolling
 - ~~create Marionette version of client~~
   - ~~new item form~~
   - ~~summaries~~
-  - add TodoView
-  - add TodoListView
-- refactor to use `serializeData()` in Marionette client
+  - ~~add TodoView~~
+  - ~~add TodoListView~~
+- ~~refactor to use `serializeData()` in Marionette client (templateHelper was used instead)~~
+- ~~template caching~~
 - when there are many items - All done - takes long time. Optimize.
-- template caching http://marionettejs.com/docs/v2.4.2/marionette.templatecache.html#override-template-compilation
+- make top form fixed and the list of items - scrolling
 
 Maybe:
 - ~~use package.json for `npm i` and `npm start`~~
