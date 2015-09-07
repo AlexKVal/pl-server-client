@@ -117,7 +117,85 @@ App.Views.NewItemForm = Marionette.ItemView.extend({
 App.Views.TodoView = Marionette.ItemView.extend({
   tagName: 'li',
   className: 'list-group-item',
-  template: '#todo-item-template'
+  template: '#todo-item-template',
+  events: {
+    'click a[data-done-id]': 'doneHandler',
+    'click a[data-del-id]': 'removeHandler',
+    'click div.view': 'editingModeOn',
+    'blur .edit': 'editingModeOff',
+    'keyup .edit': 'onKeyUp'
+  },
+  ui: {
+    input: '.edit'
+  },
+  modelEvents: {
+    'request': 'onModelRequest',
+    'sync': 'onModelSync'
+  },
+
+  // DOM events
+  doneHandler: function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.model.toggleStatus();
+  },
+  removeHandler: function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.removeItem();
+  },
+  onKeyUp: function(e) {
+    // end editing on Enter
+    if (e.which === 13) this.endEditingMode();
+    // cancel editing via 'Esc'
+    if (e.which === 27) this.editingModeOff();
+  },
+
+  // Model events
+  onModelRequest: function () {
+    this.$el.addClass('loading');
+  },
+  onModelSync: function () {
+    this.$el.removeClass('loading');
+    this.render();
+  },
+
+  editingModeOn: function () {
+    this.$el.toggleClass('editing');
+    // always reset for Esc handling
+    this.ui.input.val(this.model.get('description'));
+    this.ui.input.focus();
+  },
+  editingModeOff: function () {
+    this.$el.removeClass('editing');
+  },
+  endEditingMode: function () {
+    this.editingModeOff();
+
+    // check for empty model and save
+    var description = this.ui.input.val();
+    if (!description) this.removeItem();
+    else this.model.save({description: description}, {wait: true});
+  },
+
+  removeItem: function () {
+    this.$el.addClass('loading').slideUp('slow', _.bind(function() {
+      this.model.destroy();
+    }, this));
+  },
+  templateHelpers: function () {
+    return {
+      done: this.model.isComplete()
+    };
+  },
+  onDomRefresh: function () {
+    this.$el.effect('highlight');
+  },
+  onRender: function() {
+    this.$el.toggleClass('list-group-item-warning', !this.model.isComplete());
+  }
 });
 
 App.Views.TodoListView = Marionette.CollectionView.extend({
