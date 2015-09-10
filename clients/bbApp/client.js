@@ -26,9 +26,15 @@ App.Collections.TodoList = Backbone.Collection.extend({
     //   console.log('server put: ', id);
     // });
 
-    socket.on('server modelchange', function(id) {
+    socket.on('server modelchange', _.bind(function(id) {
       console.log('server modelchange: ', id);
-    });
+      this.get(id).fetch();
+    }, this));
+
+    socket.on('server modeldestroy', _.bind(function(id) {
+      console.log('server modeldestroy: ', id);
+      this.get(id).destroy();
+    }, this));
   },
 
   incompleteItems: function () {
@@ -68,6 +74,7 @@ App.Views.TodoView = Backbone.View.extend({
 
     this.$el.addClass('loading');
     this.model.toggleStatus();
+    socket.emit('client modelchange', this.model.id); // notify other clients
   },
   removeHandler: function (event) {
     event.preventDefault();
@@ -75,6 +82,7 @@ App.Views.TodoView = Backbone.View.extend({
 
     this.$el.addClass('loading');
     this.model.destroy({wait: true});
+    socket.emit('client modeldestroy', this.model.id); // notify other clients
   },
   editHandler: function (event) {
     this.switchIntoEditingMode();
@@ -87,10 +95,7 @@ App.Views.TodoView = Backbone.View.extend({
   },
 
   // Model events
-  onModelSync: function (model) {
-    // notify all other clients through socket.io
-    socket.emit('client modelchange', model.id);
-
+  onModelSync: function () {
     this.$el.removeClass('loading');
     this.render();
     this.$el.effect('highlight');
@@ -118,6 +123,7 @@ App.Views.TodoView = Backbone.View.extend({
     this.$el.addClass('loading');
     if (!description) {
       this.model.destroy({wait: true});
+      socket.emit('client modeldestroy', this.model.id); // notify other clients
     } else {
       this.model.save({description: description}, {wait: true});
     }

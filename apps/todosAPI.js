@@ -108,6 +108,11 @@ module.exports = function(io) {
       console.log('client modelchange: ', id);
       socket.broadcast.emit('server modelchange', id);
     });
+
+    socket.on('client modeldestroy', function(id) {
+      console.log('client modeldestroy: ', id);
+      socket.broadcast.emit('server modeldestroy', id);
+    });
   })
 
   return router;
