@@ -35,6 +35,11 @@ App.Collections.TodoList = Backbone.Collection.extend({
       console.log('server modeldestroy: ', id);
       this.get(id).destroy();
     }, this));
+
+    socket.on('server modeladd', _.bind(function() {
+      console.log('server modeladd');
+      this.fetch();
+    }, this));
   },
 
   incompleteItems: function () {
@@ -172,7 +177,7 @@ App.Views.NewItemFormView = Backbone.View.extend({
     event.preventDefault();
 
     var desc = this.$('input[name=description]').val();
-    socket.emit('newsubmit', desc);
+    socket.emit('client modeladd'); // notify other clients
 
     this.progressBar.show();
     this.collection.create({
