@@ -46,6 +46,8 @@ Use `HTTPie` (`brew install httpie`) for REST API testing.
 - ~~template caching~~
 - when there are many items - All done - takes long time. Optimize.
 - make top form fixed and the list of items - scrolling
+- add li:hover highlighting to indicate that it is 'editable'
+- implement socket.io
 
 Maybe:
 - ~~use package.json for `npm i` and `npm start`~~

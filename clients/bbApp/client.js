@@ -1,3 +1,5 @@
+var socket = io();
+
 var App = {
   Models: {},
   Collections: {},
@@ -149,9 +151,12 @@ App.Views.NewItemFormView = Backbone.View.extend({
   onSubmit: function (event) {
     event.preventDefault();
 
+    var desc = this.$('input[name=description]').val();
+    socket.emit('newsubmit', desc);
+
     this.progressBar.show();
     this.collection.create({
-      description: this.$('input[name=description]').val(),
+      description: desc,
       status: this.$('input[name=status]')[0].checked ? 'complete' : 'incomplete'
     },
     {
