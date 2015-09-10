@@ -21,6 +21,16 @@ App.Collections.TodoList = Backbone.Collection.extend({
   model: App.Models.TodoItem,
   url: '/todos',
 
+  initialize: function() {
+    // socket.on('server put', function(id) {
+    //   console.log('server put: ', id);
+    // });
+
+    socket.on('server modelchange', function(id) {
+      console.log('server modelchange: ', id);
+    });
+  },
+
   incompleteItems: function () {
     return this.filter(function(item){ return item.get('status') === 'incomplete' });
   },
@@ -77,7 +87,10 @@ App.Views.TodoView = Backbone.View.extend({
   },
 
   // Model events
-  onModelSync: function () {
+  onModelSync: function (model) {
+    // notify all other clients through socket.io
+    socket.emit('client modelchange', model.id);
+
     this.$el.removeClass('loading');
     this.render();
     this.$el.effect('highlight');

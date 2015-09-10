@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var _ = require('lodash');
 var todos = require('../data/data');
+// var clients = {}; // sockets' collection
 
 module.exports = function(io) {
   var router = express.Router();
@@ -83,18 +84,30 @@ module.exports = function(io) {
       var postedData = req.body;
 
       foundTodoItem.description = postedData.description;
-      foundTodoItem.status = postedData.status
+      foundTodoItem.status = postedData.status;
+
+      // Object.keys(clients).forEach(function(socketId) {
+      //   console.log('server put id: ', req.id, ' for socket: ', socketId);
+      //   clients[socketId].emit('server put', req.id);
+      // });
 
       res.status(204).json(foundTodoItem);
     })
 
   // setup socket.io
   io.on('connect', function(socket) {
-    console.log('socket connected');
+    // console.log('socket connected id: ', socket.id);
+    // clients[socket.id] = socket;
+    //
+    // socket.on('disconnect', function() {
+    //   console.log('socket disconnected id: ', socket.id);
+    //   delete clients[socket.id];
+    // })
 
-    socket.on('newsubmit', function(desc) {
-      console.log('newsubmit desc: ', desc);
-    })
+    socket.on('client modelchange', function(id) {
+      console.log('client modelchange: ', id);
+      socket.broadcast.emit('server modelchange', id);
+    });
   })
 
   return router;
