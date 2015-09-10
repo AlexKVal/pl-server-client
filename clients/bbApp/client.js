@@ -126,6 +126,7 @@ App.Views.TodoView = Backbone.View.extend({
       socket.emit('client modeldestroy', this.model.id); // notify other clients
     } else {
       this.model.save({description: description}, {wait: true});
+      socket.emit('client modelchange', this.model.id); // notify other clients
     }
   },
 
