@@ -40,6 +40,11 @@ App.Collections.TodoList = Backbone.Collection.extend({
       console.log('server modeladd');
       this.fetch();
     }, this));
+
+    socket.on('connect', _.bind(function() {
+      console.log('on connect');
+      this.fetch();
+    }, this));
   },
 
   incompleteItems: function () {
