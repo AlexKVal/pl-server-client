@@ -50,8 +50,9 @@ Use `HTTPie` (`brew install httpie`) for REST API testing.
 - implement socket.io
   - mass operations broadcasting (All done, Remove all done)
   - ~~update on connection restoring~~
-    - remove double 'GET /todos'
+    - ~~remove double 'GET /todos'~~
   - refactor all the socket.io layer code
+  - fix bug fir 'add' after 'delete' (sometimes do not render)
 
 Maybe:
 - ~~use package.json for `npm i` and `npm start`~~

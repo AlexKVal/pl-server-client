@@ -43,7 +43,12 @@ App.Collections.TodoList = Backbone.Collection.extend({
 
     socket.on('connect', _.bind(function() {
       console.log('on connect');
-      this.fetch();
+      if (!App.firstLoad) {
+        console.log('trigger re-render-all');
+        this.trigger('re-render-all');
+      } else {
+        App.firstLoad = false;
+      }
     }, this));
   },
 
@@ -156,15 +161,20 @@ App.Views.TodoListView = Backbone.View.extend({
   initialize: function () {
     this.collection.on('add', this.addItem, this);
     this.collection.on('reset', this.addAll, this);
+    this.collection.on('re-render-all', this.reRenderAll, this);
     this.$el.empty(); // remove 'loading...'
   },
   addItem: function (todoItem) {
     var todoView = new App.Views.TodoView({model: todoItem});
     $(todoView.render().el).hide().prependTo(this.$el).slideDown();
   },
-  addAll: function (collection) {
-    console.log('reset: ', this.collection);
+  addAll: function () {
     this.collection.forEach(this.addItem, this);
+  },
+  reRenderAll: function() {
+    console.log('reRenderAll');
+    this.$el.empty();
+    this.collection.fetch({reset: true});
   }
 })
 
@@ -243,6 +253,7 @@ App.TodoRouter = Backbone.Router.extend({
     this.todoList = new App.Collections.TodoList();
     new App.Views.TodoListView({collection: this.todoList});
 
+    App.firstLoad = true;
     this.todoList.preloadFromHtml();
 
     new App.Views.NewItemFormView({collection: this.todoList});
