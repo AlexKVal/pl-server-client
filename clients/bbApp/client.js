@@ -216,10 +216,19 @@ App.Views.Summaries = Backbone.View.extend({
   },
   toggleAllDone: function () {
     var newStatus = this.allDone.checked ? 'complete' : 'incomplete';
-    console.log('done:', newStatus);
-    this.collection.forEach(function (item) {
-      item.save({status: newStatus});
-    })
+    // REST way
+    // this.collection.forEach(function (item) {
+    //   item.save({status: newStatus});
+    // })
+
+    // custom implementation
+    // $.post('/todos/packet', {newStatus: newStatus}); // with urlencodedParser
+    $.ajax({
+      url: '/todos/packet',
+      method: 'POST',
+      data: JSON.stringify({newStatus: newStatus}),
+      contentType: 'application/json'
+    });
   },
   removeDone: function () {
     // REST way

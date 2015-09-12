@@ -115,6 +115,18 @@ module.exports = function(io) {
       res.sendStatus(204);
     })
 
+  router.route('/packet')
+    .post(jsonParser, function(req, res) {
+      todos.forEach(function(item) {
+        item.status = req.body.newStatus;
+      })
+
+      console.log('packet PUT: server-list-updated');
+      io.emit('server-list-updated');
+
+      res.sendStatus(204);
+    })
+
   // setup socket.io
   // io.on('connect', function(socket) {
   //   //
