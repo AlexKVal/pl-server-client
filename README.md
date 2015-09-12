@@ -55,7 +55,7 @@ Use `HTTPie` (`brew install httpie`) for REST API testing.
   - ~~All done~~
   - ~~Remove done items~~
 - make top form fixed and the list of items - scrolling
-- add li:hover highlighting to indicate that it is 'editable'
+- ~~add li:hover highlighting to indicate that it is 'editable'~~
 - use jade Layouts
 
 Maybe:

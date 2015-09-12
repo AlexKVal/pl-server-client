@@ -52,3 +52,7 @@
   display: inline-block;
   margin: 0 1rem 4px 0;
 }
+
+li:hover {
+  background-color: bisque;
+}
