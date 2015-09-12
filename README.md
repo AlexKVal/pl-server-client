@@ -59,8 +59,8 @@ Use `HTTPie` (`brew install httpie`) for REST API testing.
 - ~~Marionette: Optimize~~
   - ~~All done~~
   - ~~Remove done items~~
+- ~~use jade Layouts~~
 - make top form fixed and the list of items - scrolling
-- use jade Layouts
 
 Maybe:
 - ~~use package.json for `npm i` and `npm start`~~
