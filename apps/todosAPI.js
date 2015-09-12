@@ -98,6 +98,23 @@ module.exports = function(io) {
       res.status(204).json(foundTodoItem);
     })
 
+  router.param('ids', function (req, res, next, ids) {
+    req.ids = ids.split(',').map(function(id) { return parseInt(id, 10) });
+    next();
+  })
+
+  router.route('/packet/:ids')
+    .delete(function(req, res) {
+      req.ids.forEach(function(id) {
+        _.remove(todos, 'id', id);
+      });
+
+      console.log('packet DELETE: server-list-updated');
+      io.emit('server-list-updated');
+
+      res.sendStatus(204);
+    })
+
   // setup socket.io
   // io.on('connect', function(socket) {
   //   //

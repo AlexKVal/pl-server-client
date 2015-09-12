@@ -222,9 +222,18 @@ App.Views.Summaries = Backbone.View.extend({
     })
   },
   removeDone: function () {
-    this.collection.completeItems().forEach(function (item) {
-      item.destroy();
-    })
+    // REST way
+    // this.collection.completeItems().forEach(function (item) {
+    //   item.destroy();
+    // })
+
+    // custom implementation
+    var completeIDs = _.pluck( this.collection.completeItems(), 'id' ).join(',');
+
+    $.ajax({
+      url: '/todos/packet/' + completeIDs,
+      method: 'DELETE'
+    });
   },
   render: function () {
     this.incomplete.text(this.collection.incompleteItems().length)

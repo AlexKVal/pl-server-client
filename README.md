@@ -51,7 +51,9 @@ Use `HTTPie` (`brew install httpie`) for REST API testing.
   - ~~refactor all the socket.io layer code~~
   - ~~fix bug with 'add' after 'delete' (sometimes do not render)~~
   - move `server's io.emit` into server.data layer (when implemented)
-- when there are many items - All done - takes long time. Optimize.
+- when there are many items - takes long time. Optimize.
+  - All done
+  - ~~Remove done items~~
 - make top form fixed and the list of items - scrolling
 - add li:hover highlighting to indicate that it is 'editable'
 - use jade Layouts
