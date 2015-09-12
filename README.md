@@ -58,7 +58,7 @@ Use `HTTPie` (`brew install httpie`) for REST API testing.
 - ~~implement socket.io for Marionette client~~
 - Marionette: Optimize
   - All done
-  - Remove done items
+  - ~~Remove done items~~
 - make top form fixed and the list of items - scrolling
 - use jade Layouts
 

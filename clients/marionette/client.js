@@ -72,9 +72,18 @@ App.Views.Summaries = Marionette.ItemView.extend({
     })
   },
   removeDone: function () {
-    this.collection.completeItems().forEach(function (item) {
-      item.destroy();
-    })
+    // REST way
+    // this.collection.completeItems().forEach(function (item) {
+    //   item.destroy();
+    // })
+
+    // custom implementation
+    var completeIDs = _.pluck( this.collection.completeItems(), 'id' ).join(',');
+
+    $.ajax({
+      url: '/todos/packet/' + completeIDs,
+      method: 'DELETE'
+    });
   },
   onRender: function () {
     this.ui.incomplete.text(this.collection.incompleteItems().length)
