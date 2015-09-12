@@ -54,8 +54,12 @@ Use `HTTPie` (`brew install httpie`) for REST API testing.
 - ~~when there are many items - takes long time. Optimize.~~
   - ~~All done~~
   - ~~Remove done items~~
-- make top form fixed and the list of items - scrolling
 - ~~add li:hover highlighting to indicate that it is 'editable'~~
+- ~~implement socket.io for Marionette client~~
+- Marionette: Optimize
+  - All done
+  - Remove done items
+- make top form fixed and the list of items - scrolling
 - use jade Layouts
 
 Maybe:

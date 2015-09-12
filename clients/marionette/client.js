@@ -1,3 +1,5 @@
+var socket = io();
+
 var App = {
   Models: {},
   Collections: {},
@@ -130,7 +132,8 @@ App.Views.TodoView = Marionette.ItemView.extend({
   },
   modelEvents: {
     'request': 'onModelRequest',
-    'sync': 'onModelSync'
+    'sync': 'onModelSync',
+    'change': 'onModelChange'
   },
 
   // DOM events
@@ -159,6 +162,8 @@ App.Views.TodoView = Marionette.ItemView.extend({
   },
   onModelSync: function () {
     this.$el.removeClass('loading');
+  },
+  onModelChange: function() {
     this.render();
   },
 
@@ -203,6 +208,7 @@ App.Views.TodoListView = Marionette.CollectionView.extend({
 });
 
 App.start = function() {
+  App.firstLoad = true;
   this.todoList = new App.Collections.TodoList();
   this.todoList.preloadFromHtml();
 
@@ -220,6 +226,21 @@ App.start = function() {
   this.root.showChildView('todos', listItemsView);
 
   this.todoList.fetch();
+
+  var that = this;
+  socket.on('server-list-updated', function() {
+    console.log('on server-list-updated: fetch()');
+    that.todoList.fetch();
+  });
+  socket.on('connect', function() {
+    if (!App.firstLoad) {
+      console.log('on reconnect: trigger re-render-all');
+      that.todoList.fetch();
+    } else {
+      console.log('on connect');
+      App.firstLoad = false;
+    }
+  });
 
   Backbone.history.start({pushState: false});
 };
