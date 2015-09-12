@@ -66,10 +66,20 @@ App.Views.Summaries = Marionette.ItemView.extend({
   },
   toggleAllDone: function () {
     var newStatus = this.ui.allDone[0].checked ? 'complete' : 'incomplete';
-    console.log('done:', newStatus);
-    this.collection.each(function (item) {
-      item.save({status: newStatus});
-    })
+
+    // REST way
+    // this.collection.each(function (item) {
+    //   item.save({status: newStatus});
+    // })
+
+    // custom implementation
+    // $.post('/todos/packet', {newStatus: newStatus}); // with urlencodedParser
+    $.ajax({
+      url: '/todos/packet',
+      method: 'POST',
+      data: JSON.stringify({newStatus: newStatus}),
+      contentType: 'application/json'
+    });
   },
   removeDone: function () {
     // REST way
