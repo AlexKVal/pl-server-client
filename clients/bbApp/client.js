@@ -22,34 +22,16 @@ App.Collections.TodoList = Backbone.Collection.extend({
   url: '/todos',
 
   initialize: function() {
-    // socket.on('server put', function(id) {
-    //   console.log('server put: ', id);
-    // });
-
-    socket.on('server modelchange', _.bind(function(id) {
-      console.log('server modelchange: ', id);
-      this.get(id).fetch();
-    }, this));
-
-    socket.on('server modeldestroy', _.bind(function(id) {
-      console.log('server modeldestroy: ', id);
-      this.get(id).destroy();
-    }, this));
-
-    socket.on('server modeladd', _.bind(function() {
-      console.log('server modeladd');
-      this.fetch();
-    }, this));
-
-    socket.on('connect', _.bind(function() {
-      console.log('on connect');
+    var that = this;
+    socket.on('connect', function() {
       if (!App.firstLoad) {
-        console.log('trigger re-render-all');
-        this.trigger('re-render-all');
+        console.log('on reconnect: trigger re-render-all');
+        that.trigger('re-render-all');
       } else {
+        console.log('on connect');
         App.firstLoad = false;
       }
-    }, this));
+    });
   },
 
   incompleteItems: function () {
@@ -79,7 +61,30 @@ App.Views.TodoView = Backbone.View.extend({
 
   initialize: function () {
     this.listenTo(this.model, 'sync', this.onModelSync);
-    this.listenTo(this.model, 'destroy', this.onModelRemove);
+
+    this.listenTo(this.model, 'change', function(model) {
+      console.log('model onChange ', model.id);
+      this.onModelChange();
+    });
+
+    this.listenTo(this.model, 'remove', function(model) {
+      console.log('model onRemove ', model.id);
+      this.onModelRemove();
+    });
+  },
+
+  // Model events
+  onModelSync: function () {
+    this.$el.removeClass('loading');
+  },
+  onModelRemove: function () {
+    this.$el.slideUp(function() {
+      this.remove();
+    });
+  },
+  onModelChange: function() {
+    this.render();
+    this.$el.effect('highlight');
   },
 
   // DOM events
@@ -89,7 +94,6 @@ App.Views.TodoView = Backbone.View.extend({
 
     this.$el.addClass('loading');
     this.model.toggleStatus();
-    socket.emit('client modelchange', this.model.id); // notify other clients
   },
   removeHandler: function (event) {
     event.preventDefault();
@@ -97,7 +101,6 @@ App.Views.TodoView = Backbone.View.extend({
 
     this.$el.addClass('loading');
     this.model.destroy({wait: true});
-    socket.emit('client modeldestroy', this.model.id); // notify other clients
   },
   editHandler: function (event) {
     this.switchIntoEditingMode();
@@ -109,17 +112,6 @@ App.Views.TodoView = Backbone.View.extend({
     if (e.keyCode === 27) this.cancelEditingMode();
   },
 
-  // Model events
-  onModelSync: function () {
-    this.$el.removeClass('loading');
-    this.render();
-    this.$el.effect('highlight');
-  },
-  onModelRemove: function () {
-    this.$el.slideUp(function() {
-      this.remove();
-    });
-  },
 
   switchIntoEditingMode: function () {
     this.$el.toggleClass('editing');
@@ -138,10 +130,8 @@ App.Views.TodoView = Backbone.View.extend({
     this.$el.addClass('loading');
     if (!description) {
       this.model.destroy({wait: true});
-      socket.emit('client modeldestroy', this.model.id); // notify other clients
     } else {
       this.model.save({description: description}, {wait: true});
-      socket.emit('client modelchange', this.model.id); // notify other clients
     }
   },
 
@@ -159,7 +149,11 @@ App.Views.TodoView = Backbone.View.extend({
 App.Views.TodoListView = Backbone.View.extend({
   el: '#todos',
   initialize: function () {
-    this.collection.on('add', this.addItem, this);
+    this.collection.on('add', function(model) {
+      console.log('collection onAdd: ', model);
+      this.addItem(model);
+    }, this);
+
     this.collection.on('reset', this.addAll, this);
     this.collection.on('re-render-all', this.reRenderAll, this);
     this.$el.empty(); // remove 'loading...'
@@ -191,12 +185,9 @@ App.Views.NewItemFormView = Backbone.View.extend({
   onSubmit: function (event) {
     event.preventDefault();
 
-    var desc = this.$('input[name=description]').val();
-    socket.emit('client modeladd'); // notify other clients
-
     this.progressBar.show();
     this.collection.create({
-      description: desc,
+      description: this.$('input[name=description]').val(),
       status: this.$('input[name=status]')[0].checked ? 'complete' : 'incomplete'
     },
     {
@@ -258,6 +249,12 @@ App.TodoRouter = Backbone.Router.extend({
 
     new App.Views.NewItemFormView({collection: this.todoList});
     new App.Views.Summaries({collection: this.todoList});
+
+    var that = this;
+    socket.on('server-list-updated', function() {
+      console.log('on server-list-updated: fetch()');
+      that.todoList.fetch();
+    });
   },
   index: function () {
     console.log('index');

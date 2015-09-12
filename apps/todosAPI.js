@@ -63,6 +63,9 @@ module.exports = function(io) {
       }
       todos.push(newTodo);
 
+      console.log('POST: server-list-updated');
+      io.emit('server-list-updated');
+
       res.status(201).json(newTodo); // 201 Created
     })
 
@@ -74,8 +77,11 @@ module.exports = function(io) {
     })
     .delete(function (req, res) {
       _.remove(todos, 'id', req.id);
+
+      console.log('DELETE: server-list-updated');
+      io.emit('server-list-updated');
+
       res.sendStatus(204);
-      // res.sendStatus(404);
     })
     .put(jsonParser, parsePostedData, function (req, res) {
       var foundTodoItem = _.find(todos, 'id', req.id);
@@ -86,39 +92,16 @@ module.exports = function(io) {
       foundTodoItem.description = postedData.description;
       foundTodoItem.status = postedData.status;
 
-      // Object.keys(clients).forEach(function(socketId) {
-      //   console.log('server put id: ', req.id, ' for socket: ', socketId);
-      //   clients[socketId].emit('server put', req.id);
-      // });
+      console.log('PUT: server-list-updated');
+      io.emit('server-list-updated');
 
       res.status(204).json(foundTodoItem);
     })
 
   // setup socket.io
-  io.on('connect', function(socket) {
-    // console.log('socket connected id: ', socket.id);
-    // clients[socket.id] = socket;
-    //
-    // socket.on('disconnect', function() {
-    //   console.log('socket disconnected id: ', socket.id);
-    //   delete clients[socket.id];
-    // })
-
-    socket.on('client modelchange', function(id) {
-      console.log('client modelchange: ', id);
-      socket.broadcast.emit('server modelchange', id);
-    });
-
-    socket.on('client modeldestroy', function(id) {
-      console.log('client modeldestroy: ', id);
-      socket.broadcast.emit('server modeldestroy', id);
-    });
-
-    socket.on('client modeladd', function(id) {
-      console.log('client modeladd: ', id);
-      socket.broadcast.emit('server modeladd', id);
-    });
-  })
+  // io.on('connect', function(socket) {
+  //   //
+  // })
 
   return router;
 }
