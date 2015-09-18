@@ -73,3 +73,6 @@ Maybe:
   - http://www.getmdl.io/
 - add 'Canvas'
 - https://daneden.github.io/animate.css/
+- implement CSRF https://github.com/krakenjs/lusca#luscacsrfoptions
+- implement CSP https://github.com/krakenjs/lusca#luscacspoptions
+- rewrite it with controllers https://github.com/sahat/hackathon-starter/tree/master/controllers
