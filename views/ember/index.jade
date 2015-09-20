@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css')
+    link(href='http://fonts.googleapis.com/css?family=Courgette', rel='stylesheet', type='text/css')
+    link(href='style.css', rel='stylesheet')    
+  
+    title Ember
+
+  include ../includes/body.jade
+
+  include ./todo-item-template.jade
+
+  // Scripts
+  script(src='https://code.jquery.com/jquery-2.1.4.min.js')
+  script(src='https://code.jquery.com/ui/1.11.4/jquery-ui.min.js')
+
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.2/handlebars.min.js')
+
+  script(src='http://builds.emberjs.com/tags/v2.0.2/ember.min.js')
+  script(src='http://builds.emberjs.com/tags/v2.0.2/ember-template-compiler.js')
+
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/ember-data.js/2.0.1/ember-data.min.js')
+    
+  //- script(src='/socket.io/socket.io.js')
+
+  script(src='client.js')
