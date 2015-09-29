@@ -16,6 +16,8 @@ app.set('view engine', 'jade');
 
 app.use(morgan('dev'));
 
+app.use('/', express.static('static'));
+
 app.use('/todos', todosAPIRouter);
 
 app.use('/jq', express.static('clients/jq'));
