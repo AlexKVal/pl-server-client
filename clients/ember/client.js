@@ -28,3 +28,8 @@ App.IndexRoute = Ember.Route.extend({
     return promise;
   }
 });
+
+App.IndexController = Ember.Controller.extend({
+  sumIncomplete: 100,
+  sumComplete: 200
+});

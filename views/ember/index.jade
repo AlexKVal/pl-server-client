@@ -2,29 +2,75 @@ doctype html
 html
   head
     meta(charset='UTF-8')
+
     link(href="/favicon.ico?v=2", type="image/x-icon", rel="shortcut icon")
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css')
     link(href='http://fonts.googleapis.com/css?family=Courgette', rel='stylesheet', type='text/css')
     link(href='style.css', rel='stylesheet')    
-  
+
+    script(src='https://code.jquery.com/jquery-2.1.4.min.js')
+    script(src='https://code.jquery.com/ui/1.11.4/jquery-ui.min.js')
+
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.2/handlebars.min.js')
+
+    script(src='http://builds.emberjs.com/tags/v2.0.2/ember.min.js')
+    script(src='http://builds.emberjs.com/tags/v2.0.2/ember-template-compiler.js')
+
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/ember-data.js/2.0.1/ember-data.min.js')
+
+    //- script(src='/socket.io/socket.io.js')
+
+    script(src='client.js')
+
     title Ember
 
-  include ../includes/body.jade
+  body
+    script(type="text/x-handlebars", data-template-name='application')
+      .main.container-fluid
+        .row
+          {{outlet}}
 
-  include ./todo-item-template.jade
+    script(type="text/x-handlebars", data-template-name='index')
+      #app.panel.panel-info
+        .panel-heading
+          #summaries
+            .incomplete
+              span.label.label-warning Incomplete:
+              span.label.label-info {{sumIncomplete}}
+            .done
+              span.label.label-success Complete:
+              span.label.label-info {{sumComplete}}
+            .checkbox
+              label
+                input.toggle-all-done(type="checkbox")
+                |  All done
+            a.remove-done.label.label-warning(href="#") Remove done items
 
-  // Scripts
-  script(src='https://code.jquery.com/jquery-2.1.4.min.js')
-  script(src='https://code.jquery.com/ui/1.11.4/jquery-ui.min.js')
+          form(id='new-form', action='/todos', method='post')
+            .input-group
+              // status checkbox
+              span.input-group-addon
+                input(name='status', type='checkbox')
+              // input
+              input.form-control.cursive(name='description', type='text', placeholder='Enter ToDo...', autofocus='', autocomplete='off')
+              // save button
+              span.input-group-btn
+                button.btn.btn-success(type='submit') Save
+          .sync-indicator.progress
+            .progress-bar.progress-bar-striped.active(style='width: 100%')
 
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.2/handlebars.min.js')
+        ul#todos.list-group Loading...
 
-  script(src='http://builds.emberjs.com/tags/v2.0.2/ember.min.js')
-  script(src='http://builds.emberjs.com/tags/v2.0.2/ember-template-compiler.js')
-
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/ember-data.js/2.0.1/ember-data.min.js')
-    
-  //- script(src='/socket.io/socket.io.js')
-
-  script(src='client.js')
+    script(type="text/x-handlebars", data-template-name='todo-item')
+      .view
+        span.badge.pull-left {{id}}
+        span.description.cursive(class='complete') {{description}}
+        a.btn.btn-danger.btn-sm.pull-right(href='#', data-del-id='{{id}}')
+          span.glyphicon.glyphicon-remove
+        a.btn.btn-success.btn-sm.pull-right(href='#', data-done-id='{{id}}')
+          span.glyphicon.glyphicon-ok
+      input.edit.form-control.cursive(value='{{description}}', type='text', autocomplete='off')
+      .progress
+        .progress-bar.progress-bar-striped.active(style='width: 100%')
+          | Syncing...
