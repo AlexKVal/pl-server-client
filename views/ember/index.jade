@@ -41,11 +41,15 @@ html
             .done
               span.label.label-success Complete:
               span.label.label-info {{sumComplete}}
+            {{#if sumIncomplete}}
             .checkbox
               label
                 input.toggle-all-done(type="checkbox")
                 |  All done
+            {{/if}}
+            {{#if sumComplete}}
             a.remove-done.label.label-warning(href="#") Remove done items
+            {{/if}}
 
           form(id='new-form', action='/todos', method='post')
             .input-group
