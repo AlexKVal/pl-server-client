@@ -29,7 +29,7 @@ html
     script(type="text/x-handlebars", data-template-name='application')
       .main.container-fluid
         .row
-          {{outlet}}
+          |{{outlet}}
 
     script(type="text/x-handlebars", data-template-name='index')
       #app.panel.panel-info
@@ -41,15 +41,15 @@ html
             .done
               span.label.label-success Complete:
               span.label.label-info {{sumComplete}}
-            {{#if sumIncomplete}}
+            |{{#if sumIncomplete}}
             .checkbox
               label
                 input.toggle-all-done(type="checkbox")
                 |  All done
-            {{/if}}
-            {{#if sumComplete}}
+            |{{/if}}
+            |{{#if sumComplete}}
             a.remove-done.label.label-warning(href="#") Remove done items
-            {{/if}}
+            |{{/if}}
 
           form(id='new-form', action='/todos', method='post')
             .input-group
@@ -65,13 +65,13 @@ html
             .progress-bar.progress-bar-striped.active(style='width: 100%')
 
         ul#todos.list-group
-          {{#if model.length}}
-          {{#each model as |todo|}}
+          |{{#if model.length}}
+          |{{#each model as |todo|}}
           li.list-group-item {{todo.description}}
-          {{/each}}
-          {{else}}
+          |{{/each}}
+          |{{else}}
           li.list-group-item There is no Todo items.
-          {{/if}}
+          |{{/if}}
 
     script(type="text/x-handlebars", data-template-name='todo-item')
       .view
