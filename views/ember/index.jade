@@ -64,7 +64,14 @@ html
           .sync-indicator.progress
             .progress-bar.progress-bar-striped.active(style='width: 100%')
 
-        ul#todos.list-group Loading...
+        ul#todos.list-group
+          {{#if model.length}}
+          {{#each model as |todo|}}
+          li.list-group-item {{todo.description}}
+          {{/each}}
+          {{else}}
+          li.list-group-item There is no Todo items.
+          {{/if}}
 
     script(type="text/x-handlebars", data-template-name='todo-item')
       .view
