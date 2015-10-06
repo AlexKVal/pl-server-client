@@ -67,21 +67,21 @@ html
         ul#todos.list-group
           |{{#if model.length}}
           |{{#each model as |todo|}}
-          li.list-group-item {{todo.description}}
+          |{{todo-line todo=todo tag='li' class='list-group-item'}}
           |{{/each}}
           |{{else}}
           li.list-group-item There is no Todo items.
           |{{/if}}
 
-    script(type="text/x-handlebars", data-template-name='todo-item')
+    script(type="text/x-handlebars", data-template-name='components/todo-line')
       .view
-        span.badge.pull-left {{id}}
-        span.description.cursive(class='complete') {{description}}
-        a.btn.btn-danger.btn-sm.pull-right(href='#', data-del-id='{{id}}')
+        span.badge.pull-left {{todo.id}}
+        span.description.cursive(class='{{completeClass}}') {{todo.description}}
+        a.btn.btn-danger.btn-sm.pull-right(href='#')
           span.glyphicon.glyphicon-remove
-        a.btn.btn-success.btn-sm.pull-right(href='#', data-done-id='{{id}}')
+        a.btn.btn-success.btn-sm.pull-right(href='#')
           span.glyphicon.glyphicon-ok
-      input.edit.form-control.cursive(value='{{description}}', type='text', autocomplete='off')
+      input.edit.form-control.cursive(value='{{todo.description}}', type='text', autocomplete='off')
       .progress
         .progress-bar.progress-bar-striped.active(style='width: 100%')
           | Syncing...

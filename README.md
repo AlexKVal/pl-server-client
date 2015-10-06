@@ -11,6 +11,7 @@
   - Mustache (was Underscore)
   - routes
 - Marionette
+- Ember
 
 ```
 > git clone && cd
@@ -60,9 +61,11 @@ Use `HTTPie` (`brew install httpie`) for REST API testing.
   - ~~All done~~
   - ~~Remove done items~~
 - ~~use jade Layouts~~
-- make top form fixed and the list of items - scrolling
+- Ember:
+  - http://guides.emberjs.com/v2.1.0/object-model/computed-properties-and-aggregate-data/
 
 Maybe:
+- make top form fixed and the list of items - scrolling
 - ~~use package.json for `npm i` and `npm start`~~
 - ~~migrate to Mustache templates~~
 - ~~use preloaded (with index page) data (preloads only `incomplete`)~~

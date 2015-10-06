@@ -35,3 +35,18 @@ App.IndexController = Ember.Controller.extend({
   sumIncomplete: Ember.computed.alias('incompleted.length'),
   sumComplete: Ember.computed.alias('completed.length')
 });
+
+App.TodoLineComponent = Ember.Component.extend({
+  tagName: 'li',
+  classNames: ['list-group-item'],
+  classNameBindings: ['isComplete::list-group-item-warning'],
+  isComplete: Ember.computed('todo.status', function() {
+    return this.todo.get('status') === 'complete';
+  }),
+  completeClass: Ember.computed(function() {
+    return this.get('isComplete') ? 'complete' : '';
+  }),
+  // completeClass: function() {
+  //   return this.get('reviewsCount') > 0;
+  // }.property('reviewsCount')
+});
