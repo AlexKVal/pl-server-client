@@ -12,27 +12,14 @@ App.Todo = DS.Model.extend({
 
 App.IndexRoute = Ember.Route.extend({
   model: function() {
-    var promise = this.store.findAll('todo');
-
-    // -- debug --
-    // promise.then(function(items) {
-    //   items.forEach(function(item) {
-    //     var msg = 'Item: id=' + item.id + ' ' +
-    //       'desc="' + item.get('description') + '" ' +
-    //       'status="' + item.get('status') + '"';
-    //     console.log(msg);
-    //   })
-    // })
-    // ----------
-
-    return promise;
+    return this.store.findAll('todo');
   }
 });
 
 App.IndexController = Ember.Controller.extend({
-  incompleted: Ember.computed.filterBy('model', 'status', 'incomplete'),
+  incomplete: Ember.computed.filterBy('model', 'status', 'incomplete'),
   completed: Ember.computed.filterBy('model', 'status', 'complete'),
-  sumIncomplete: Ember.computed.alias('incompleted.length'),
+  sumIncomplete: Ember.computed.alias('incomplete.length'),
   sumComplete: Ember.computed.alias('completed.length')
 });
 
