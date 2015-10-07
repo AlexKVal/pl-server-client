@@ -30,10 +30,10 @@ App.TodoLineComponent = Ember.Component.extend({
   isComplete: Ember.computed('todo.status', function() {
     return this.todo.get('status') === 'complete';
   }),
-  completeClass: Ember.computed(function() {
+  completeClass: Ember.computed('isComplete', function() {
     return this.get('isComplete') ? 'complete' : '';
   }),
   // completeClass: function() {
-  //   return this.get('reviewsCount') > 0;
-  // }.property('reviewsCount')
+  //   return this.get('isComplete') ? 'complete' : '';
+  // }.property('isComplete')
 });
