@@ -35,5 +35,16 @@ App.TodoLineComponent = Ember.Component.extend({
   }),
   // completeClass: function() {
   //   return this.get('isComplete') ? 'complete' : '';
-  // }.property('isComplete')
+  // }.property('isComplete'),
+  actions: {
+    removeTodo: function() {
+      var todo = this.get('todo');
+      console.log(todo.get('description'));
+      todo.deleteRecord();
+      todo.save();
+    },
+    toggleDone: function() {
+      console.log('toggle done');
+    }
+  }
 });

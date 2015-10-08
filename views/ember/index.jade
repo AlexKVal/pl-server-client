@@ -77,10 +77,12 @@ html
       .view
         span.badge.pull-left {{todo.id}}
         span.description.cursive(class='{{completeClass}}') {{todo.description}}
-        a.btn.btn-danger.btn-sm.pull-right(href='#')
-          span.glyphicon.glyphicon-remove
-        a.btn.btn-success.btn-sm.pull-right(href='#')
-          span.glyphicon.glyphicon-ok
+        <a href="#" class="btn btn-danger btn-sm pull-right" {{action "removeTodo"}}>
+        span.glyphicon.glyphicon-remove
+        </a>
+        <a href="#" class="btn btn-success btn-sm pull-right" {{action "toggleDone"}}>
+        span.glyphicon.glyphicon-ok
+        </a>
       input.edit.form-control.cursive(value='{{todo.description}}', type='text', autocomplete='off')
       .progress
         .progress-bar.progress-bar-striped.active(style='width: 100%')
