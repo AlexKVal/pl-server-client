@@ -7,7 +7,11 @@ App.ApplicationSerializer = DS.JSONSerializer.extend();
 App.Todo = DS.Model.extend({
   description: DS.attr('string'),
   // One of ['incomplete', 'complete']
-  status: DS.attr('string')
+  status: DS.attr('string'),
+  toggleDone: function() {
+    this.set('status', (this.get('status') === 'complete') ? 'incomplete' : 'complete');
+    return this;
+  }
 });
 
 App.IndexRoute = Ember.Route.extend({
@@ -44,7 +48,10 @@ App.TodoLineComponent = Ember.Component.extend({
       todo.save();
     },
     toggleDone: function() {
-      console.log('toggle done');
+      // var todo = this.get('todo');
+      // todo.toggleDone();
+      // todo.save();
+      this.get('todo').toggleDone().save();
     }
   }
 });

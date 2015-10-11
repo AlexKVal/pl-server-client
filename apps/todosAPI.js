@@ -97,6 +97,21 @@ module.exports = function(io) {
 
       res.status(204).json(foundTodoItem);
     })
+    // ember
+    .patch(bodyParser.json({ type: 'application/vnd.api+json' }), function(req, res) {
+      var patchData = req.body;
+
+      var foundTodoItem = _.find(todos, 'id', +patchData.id);
+      if (!foundTodoItem) res.status(404).json('There is no todo entry with id = ' + req.id);
+
+      foundTodoItem.description = patchData.description;
+      foundTodoItem.status = patchData.status;
+
+      console.log('PATCH: server-list-updated');
+      io.emit('server-list-updated');
+
+      res.status(204).json(foundTodoItem);
+    })
 
   router.param('ids', function (req, res, next, ids) {
     req.ids = ids.split(',').map(function(id) { return parseInt(id, 10) });
