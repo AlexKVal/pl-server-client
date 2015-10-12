@@ -24,7 +24,18 @@ App.IndexController = Ember.Controller.extend({
   incomplete: Ember.computed.filterBy('model', 'status', 'incomplete'),
   completed: Ember.computed.filterBy('model', 'status', 'complete'),
   sumIncomplete: Ember.computed.alias('incomplete.length'),
-  sumComplete: Ember.computed.alias('completed.length')
+  sumComplete: Ember.computed.alias('completed.length'),
+  actions: {
+    saveNew: function() {
+      var newTodo = this.store.createRecord('todo', {
+        description: this.get('newDescr'),
+        status: 'incomplete' // todo
+      });
+      newTodo.save().then(function() {
+        this.set('newDescr', '');
+      }.bind(this));
+    }
+  }
 });
 
 App.TodoLineComponent = Ember.Component.extend({

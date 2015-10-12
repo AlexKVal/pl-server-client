@@ -57,10 +57,10 @@ html
               span.input-group-addon
                 input(name='status', type='checkbox')
               // input
-              input.form-control.cursive(name='description', type='text', placeholder='Enter ToDo...', autofocus='', autocomplete='off')
+              |{{input id="new-todo" name='description' type="text" value=newDescr placeholder="Enter ToDo..." autofocus="on" autocomplete="off" class="form-control cursive"}}
               // save button
               span.input-group-btn
-                button.btn.btn-success(type='submit') Save
+                <button class="btn btn-success" type="submit" {{action "saveNew"}}>Save</button>
           .sync-indicator.progress
             .progress-bar.progress-bar-striped.active(style='width: 100%')
 

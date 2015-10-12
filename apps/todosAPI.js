@@ -10,6 +10,7 @@ module.exports = function(io) {
   var nextId = todos.length + 1;
 
   var jsonParser = bodyParser.json();
+  var jsonEmber  = bodyParser.json({ type: 'application/vnd.api+json' });
   var urlencodedParser = bodyParser.urlencoded({extended: false});
 
   function pause(delay, err) {
@@ -32,6 +33,11 @@ module.exports = function(io) {
   function parsePostedData(req, res, next) {
     var postedData = req.body;
 
+    // json (ember)
+    if (postedData.status === 'complete') next();
+    if (postedData.status === 'incomplete') next();
+
+    // form
     if (postedData.status) {
       if (postedData.status === 'on') {
         postedData.status = 'complete';
@@ -53,9 +59,9 @@ module.exports = function(io) {
         res.json(todos);
       }
     })
-    .post(jsonParser, urlencodedParser, parsePostedData, function (req, res) {
+    .post(jsonParser, jsonEmber, urlencodedParser, parsePostedData, function (req, res) {
       var postedData = req.body;
-
+console.log('postedData', postedData);
       var newTodo = {
         id: nextId++,
         description: postedData.description,
@@ -98,7 +104,7 @@ module.exports = function(io) {
       res.status(204).json(foundTodoItem);
     })
     // ember
-    .patch(bodyParser.json({ type: 'application/vnd.api+json' }), function(req, res) {
+    .patch(jsonEmber, function(req, res) {
       var patchData = req.body;
 
       var foundTodoItem = _.find(todos, 'id', +patchData.id);
