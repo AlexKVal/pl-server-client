@@ -27,6 +27,11 @@ App.IndexController = Ember.Controller.extend({
   sumComplete: Ember.computed.alias('completed.length'),
   actions: {
     saveNew: function() {
+      $('#new-descr').focus();
+
+      var descr = this.get('newDescr').trim();
+      if (!descr) return;
+
       var newTodo = this.store.createRecord('todo', {
         description: this.get('newDescr'),
         status: 'incomplete' // todo
@@ -34,6 +39,9 @@ App.IndexController = Ember.Controller.extend({
       newTodo.save().then(function() {
         this.set('newDescr', '');
       }.bind(this));
+    },
+    cancelEdit: function() {
+      this.set('newDescr', '');
     }
   }
 });
