@@ -55,7 +55,7 @@ html
             .input-group
               // status checkbox
               span.input-group-addon
-                input(name='status', type='checkbox')
+                |{{input type='checkbox' checked=isCompleted name='status'}}
               // input
               |{{input id='new-descr' name='description' type='text' value=newDescr
               |escape-press='cancelEdit'

@@ -32,12 +32,15 @@ App.IndexController = Ember.Controller.extend({
       var descr = this.get('newDescr').trim();
       if (!descr) return;
 
+      var status = this.get('isCompleted') ? 'complete' : 'incomplete';
+
       var newTodo = this.store.createRecord('todo', {
         description: this.get('newDescr'),
-        status: 'incomplete' // todo
+        status: status
       });
       newTodo.save().then(function() {
         this.set('newDescr', '');
+        this.set('isCompleted', false);
       }.bind(this));
     },
     cancelEdit: function() {
