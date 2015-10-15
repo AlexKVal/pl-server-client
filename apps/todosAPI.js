@@ -91,7 +91,7 @@ console.log('postedData', postedData);
     })
     .put(jsonParser, parsePostedData, function (req, res) {
       var foundTodoItem = _.find(todos, 'id', req.id);
-      if (!foundTodoItem) res.status(404).json('There is no todo entry with id = ' + req.id);
+      if (!foundTodoItem) return res.status(404).json('There is no todo entry with id = ' + req.id);
 
       var postedData = req.body;
 
@@ -108,7 +108,7 @@ console.log('postedData', postedData);
       var patchData = req.body;
 
       var foundTodoItem = _.find(todos, 'id', +patchData.id);
-      if (!foundTodoItem) res.status(404).json('There is no todo entry with id = ' + req.id);
+      if (!foundTodoItem) return res.status(404).json('There is no todo entry with id = ' + req.id);
 
       foundTodoItem.description = patchData.description;
       foundTodoItem.status = patchData.status;
