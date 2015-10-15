@@ -45,6 +45,11 @@ App.IndexController = Ember.Controller.extend({
     },
     cancelEdit: function() {
       this.set('newDescr', '');
+    },
+    removeAllDone: function() {
+      var completed = this.get('completed');
+      completed.invoke('deleteRecord');
+      completed.invoke('save');
     }
   }
 });

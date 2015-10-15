@@ -48,7 +48,7 @@ html
                 |  All done
             |{{/if}}
             |{{#if sumComplete}}
-            a.remove-done.label.label-warning(href="#") Remove done items
+            <a href="#" class="remove-done label label-warning" {{action "removeAllDone"}}>Remove done items</a>
             |{{/if}}
 
           form(id='new-form', action='/todos', method='post')
