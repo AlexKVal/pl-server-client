@@ -44,7 +44,7 @@ html
             |{{#if sumIncomplete}}
             .checkbox
               label
-                input.toggle-all-done(type="checkbox")
+                |{{input type='checkbox' checked=allDone class='toggle-all-done'}}
                 |  All done
             |{{/if}}
             |{{#if sumComplete}}

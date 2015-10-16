@@ -63,6 +63,7 @@ Use `HTTPie` (`brew install httpie`) for REST API testing.
 - ~~use jade Layouts~~
 - Ember:
   - http://guides.emberjs.com/v2.1.0/object-model/computed-properties-and-aggregate-data/
+  - improve 'allDone' handler. make it 'bulk' operation.
 
 Maybe:
 - make top form fixed and the list of items - scrolling
