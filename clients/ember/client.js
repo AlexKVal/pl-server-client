@@ -26,8 +26,9 @@ App.IndexController = Ember.Controller.extend({
   sumIncomplete: Ember.computed.alias('incomplete.length'),
   sumComplete: Ember.computed.alias('completed.length'),
   watchAllDone: function() {
-    this.get('incomplete').setEach('status', 'complete');
-    this.model.save();
+    var incompleteItems = this.get('incomplete');
+    incompleteItems.setEach('status', 'complete');
+    incompleteItems.invoke('save');
   }.observes('allDone'),
   actions: {
     saveNew: function() {
