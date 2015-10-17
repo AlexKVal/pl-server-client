@@ -21,6 +21,9 @@ App.IndexRoute = Ember.Route.extend({
 });
 
 App.IndexController = Ember.Controller.extend({
+  todosSortingDesc: ['id:desc'],
+  sortedTodosDesc: Ember.computed.sort('model', 'todosSortingDesc'),
+
   incomplete: Ember.computed.filterBy('model', 'status', 'incomplete'),
   completed: Ember.computed.filterBy('model', 'status', 'complete'),
   sumIncomplete: Ember.computed.alias('incomplete.length'),

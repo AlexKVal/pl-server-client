@@ -69,7 +69,7 @@ html
 
         ul#todos.list-group
           |{{#if model.length}}
-          |{{#each model as |todo|}}
+          |{{#each sortedTodosDesc as |todo|}}
           |{{todo-line todo=todo tag='li' class='list-group-item'}}
           |{{/each}}
           |{{else}}
