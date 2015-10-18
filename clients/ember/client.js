@@ -91,6 +91,16 @@ App.TodoLineComponent = Ember.Component.extend({
     },
     toggleEditingMode: function() {
       this.set('isEditing', true);
+    },
+    cancelEditingMode: function() {
+      this.set('isEditing', false);
     }
   }
+});
+
+App.TodoInputComponent = Ember.TextField.extend({
+  focusOnInsert: function() {
+    this.$().val(this.$().val());
+		this.$().focus();
+  }.on('didInsertElement')
 });

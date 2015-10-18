@@ -88,8 +88,11 @@ html
       span.glyphicon.glyphicon-ok
       </a>
       </div>
-      {{else}}
-      input.form-control.cursive(value='{{todo.description}}', type='text', autocomplete='off')
+      |{{else}}
+      |{{todo-input type='text' value=todo.description
+      |escape-press='cancelEditingMode'
+      |autocomplete='off'
+      |class="form-control cursive" }}
       |{{/unless}}
       .progress
         .progress-bar.progress-bar-striped.active(style='width: 100%')
