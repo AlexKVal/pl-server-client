@@ -75,6 +75,7 @@ App.TodoLineComponent = Ember.Component.extend({
   // completeClass: function() {
   //   return this.get('isComplete') ? 'complete' : '';
   // }.property('isComplete'),
+  isEditing: false,
   actions: {
     removeTodo: function() {
       var todo = this.get('todo');
@@ -87,6 +88,9 @@ App.TodoLineComponent = Ember.Component.extend({
       // todo.toggleDone();
       // todo.save();
       this.get('todo').toggleDone().save();
+    },
+    toggleEditingMode: function() {
+      this.set('isEditing', true);
     }
   }
 });
