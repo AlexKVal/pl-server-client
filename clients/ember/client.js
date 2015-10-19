@@ -94,6 +94,12 @@ App.TodoLineComponent = Ember.Component.extend({
     },
     cancelEditingMode: function() {
       this.set('isEditing', false);
+    },
+    endEditingMode: function() {
+      this.set('isEditing', false);
+      console.log('endEditingMode');
+
+
     }
   }
 });

@@ -91,6 +91,8 @@ html
       |{{else}}
       |{{todo-input type='text' value=todo.description
       |escape-press='cancelEditingMode'
+      |focus-out='endEditingMode' 
+      |insert-newline='endEditingMode'
       |autocomplete='off'
       |class="form-control cursive" }}
       |{{/unless}}
