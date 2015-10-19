@@ -76,6 +76,7 @@ App.TodoLineComponent = Ember.Component.extend({
   //   return this.get('isComplete') ? 'complete' : '';
   // }.property('isComplete'),
   isEditing: false,
+  inputDescr: '',
   actions: {
     removeTodo: function() {
       var todo = this.get('todo');
@@ -91,15 +92,21 @@ App.TodoLineComponent = Ember.Component.extend({
     },
     toggleEditingMode: function() {
       this.set('isEditing', true);
+      this.set('inputDescr', this.get('todo').get('description'));
     },
     cancelEditingMode: function() {
       this.set('isEditing', false);
     },
     endEditingMode: function() {
       this.set('isEditing', false);
-      console.log('endEditingMode');
 
+      var newDescr = this.get('inputDescr').trim();
+      // TODO: then delete it
+      if (!newDescr) return;
 
+      var todo = this.get('todo');
+      todo.set('description', newDescr);
+      todo.save();
     }
   }
 });
