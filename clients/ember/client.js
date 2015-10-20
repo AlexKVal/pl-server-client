@@ -100,12 +100,16 @@ App.TodoLineComponent = Ember.Component.extend({
     endEditingMode: function() {
       this.set('isEditing', false);
 
-      var newDescr = this.get('inputDescr').trim();
-      // TODO: then delete it
-      if (!newDescr) return;
-
       var todo = this.get('todo');
-      todo.set('description', newDescr);
+
+      var newDescr = this.get('inputDescr').trim();
+
+      if (!newDescr) {
+        todo.deleteRecord();
+      } else {
+        todo.set('description', newDescr);
+      }
+
       todo.save();
     }
   }
